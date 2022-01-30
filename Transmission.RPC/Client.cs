@@ -19,7 +19,7 @@ public class Client
 
     private HttpClient httpClient;
     private Uri url;
-    private AuthenticationHeaderValue? authentication;
+
     public Client(string url, string username, string password) : this(new Uri(url), username, password)
     { }
 
@@ -28,8 +28,7 @@ public class Client
         this.httpClient = new HttpClient();
         this.url = url;
         var authBytes = Encoding.UTF8.GetBytes($"{username}:{password}");
-
-        this.authentication = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authBytes));
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authBytes));
     }
 
     public async Task Test()
@@ -65,7 +64,6 @@ public class Client
         httpRequest.RequestUri = this.url;
         httpRequest.Method = HttpMethod.Post;
         httpRequest.Content = httpStringContent;
-        httpRequest.Headers.Authorization = this.authentication;
 
         var response = await this.httpClient.SendAsync(httpRequest);
         if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
@@ -82,7 +80,6 @@ public class Client
                 httpRequest.RequestUri = this.url;
                 httpRequest.Method = HttpMethod.Post;
                 httpRequest.Content = httpStringContent;
-                httpRequest.Headers.Authorization = this.authentication;
                 httpRequest.Headers.Add("x-transmission-session-id", session);
             }
 
