@@ -1,12 +1,15 @@
+using System;
 using Xunit;
 
 namespace Transmission.RPC.Test;
 
-public class UnitTest1
+public class TestClient
 {
     [Fact]
     public void Client()
     {
-        var client = new Transmission.RPC.Client();
+        var username = Environment.GetEnvironmentVariable("TRANSMISSION_USERNAME");
+        //var client = new Transmission.RPC.Client();
+        Assert.True(true);
     }
 }
