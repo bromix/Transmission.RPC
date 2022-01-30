@@ -18,15 +18,14 @@ public class Client
     }
 
     private HttpClient httpClient;
-    private Uri url;
 
     public Client(string url, string username, string password) : this(new Uri(url), username, password)
     { }
 
     public Client(Uri url, string username, string password)
     {
-        this.httpClient = new HttpClient();
-        this.url = url;
+        httpClient = new HttpClient();
+        httpClient.BaseAddress = url;
         var authBytes = Encoding.UTF8.GetBytes($"{username}:{password}");
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authBytes));
     }
@@ -61,7 +60,6 @@ public class Client
         var httpStringContent = new StringContent(jsonStringRequest, Encoding.UTF8, "application/json");
 
         var httpRequest = new HttpRequestMessage();
-        httpRequest.RequestUri = this.url;
         httpRequest.Method = HttpMethod.Post;
         httpRequest.Content = httpStringContent;
 
@@ -77,7 +75,6 @@ public class Client
             if (!String.IsNullOrWhiteSpace(session))
             {
                 httpRequest = new HttpRequestMessage();
-                httpRequest.RequestUri = this.url;
                 httpRequest.Method = HttpMethod.Post;
                 httpRequest.Content = httpStringContent;
                 httpRequest.Headers.Add("x-transmission-session-id", session);
