@@ -19,8 +19,7 @@ public class Client
 
     private HttpClient httpClient;
 
-    public Client(string url, string username, string password) : this(new Uri(url), username, password)
-    { }
+    public Client(string url, string username, string password) : this(new Uri(url), username, password) { }
 
     public Client(Uri url, string username, string password)
     {
@@ -30,7 +29,12 @@ public class Client
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authBytes));
     }
 
-    public async Task Test()
+    public void Test()
+    {
+        TestAsync().Wait();
+    }
+
+    public async Task TestAsync()
     {
         var payload = new TorrentRequest();
         payload.arguments = new()
