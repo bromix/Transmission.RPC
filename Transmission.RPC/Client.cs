@@ -41,6 +41,45 @@ public class Client
         headers.Add("x-transmission-session-id", sessionId);
     }
 
+    /// <summary>
+    /// Helper function to send raw json content.
+    /// </summary>
+    /// <param name="content"></param>
+    /// <param name="newSessionId">Will be set by this function if the server returned a new session id via headers.</param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    private async Task<HttpResponseMessage> sendRequestAsync(JsonContent content, string? newSessionId = null)
+    {
+        if (!String.IsNullOrWhiteSpace(newSessionId))
+            updateSessionId(newSessionId);
+
+        var httpRequest = new HttpRequestMessage();
+        httpRequest.Method = HttpMethod.Post;
+        httpRequest.Content = content;
+        var response = await httpClient.SendAsync(httpRequest);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            return response;
+
+        if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            throw new InvalidOperationException("Server requires Authorization.");
+
+        if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+        {
+            // break recursion if a newSessionId was provided.
+            if (!String.IsNullOrWhiteSpace(newSessionId))
+                throw new InvalidOperationException("Session Id coud not be updated twice.");
+
+            var session = response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
+            if (!String.IsNullOrWhiteSpace(session))
+                return await sendRequestAsync(content, session);
+            else
+                throw new InvalidOperationException("New Session Id is missing in response header.");
+        }
+
+        throw new InvalidOperationException($"Server returned with {response.StatusCode}");
+    }
+
     public void Test()
     {
         TestAsync().Wait();
@@ -66,44 +105,14 @@ public class Client
             }
         };
 
-        // create string content for http client with correct header.
-        var jsonContent = JsonContent.Create(payload, options : new JsonSerializerOptions()
+        var options = new JsonSerializerOptions()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        });
+        };
 
-        var httpRequest = new HttpRequestMessage();
-        httpRequest.Method = HttpMethod.Post;
-        httpRequest.Content = jsonContent;
+        var jsonContent = JsonContent.Create(payload, options: options);
 
-        var response = await this.httpClient.SendAsync(httpRequest);
-        if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-        {
-            // Basic Auth is missing.
-        }
-
-        if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
-        {
-            var session = response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
-            if (!String.IsNullOrWhiteSpace(session))
-            {
-                updateSessionId(session);
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Post;
-                httpRequest.Content = jsonContent;
-            }
-
-        }
-
-        response = await this.httpClient.SendAsync(httpRequest);
-        if (response is not null)
-        {
-            var jsonStringResponse = await response.Content.ReadAsStringAsync();
-            // var gqlData = JsonSerializer.Deserialize<QueryResult<TValue>>(jsonStringResponse, new JsonSerializerOptions()
-            // {
-            //     PropertyNameCaseInsensitive = true
-            // });
-            // if (gqlData is not null) return gqlData;
-        }
+        var response = await sendRequestAsync(jsonContent);
+        var x = 0;
     }
 }
