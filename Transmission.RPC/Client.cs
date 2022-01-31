@@ -29,6 +29,17 @@ public class Client
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authBytes));
     }
 
+    /// <summary>
+    /// Updates the current session id in the default headers.
+    /// </summary>
+    /// <param name="sessionId"></param>
+    private void updateSessionId(string sessionId)
+    {
+        var headers = httpClient.DefaultRequestHeaders;
+        headers.Remove("x-transmission-session-id");
+        headers.Add("x-transmission-session-id", sessionId);
+    }
+
     public void Test()
     {
         TestAsync().Wait();
@@ -78,10 +89,10 @@ public class Client
             var session = response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
             if (!String.IsNullOrWhiteSpace(session))
             {
+                updateSessionId(session);
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Post;
                 httpRequest.Content = httpStringContent;
-                httpRequest.Headers.Add("x-transmission-session-id", session);
             }
 
         }
