@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -65,18 +66,15 @@ public class Client
             }
         };
 
-        // create json string from object and ommit null values.
-        var jsonStringRequest = JsonSerializer.Serialize(payload, new JsonSerializerOptions()
+        // create string content for http client with correct header.
+        var jsonContent = JsonContent.Create(payload, options : new JsonSerializerOptions()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         });
 
-        // create string content for http client with correct header.
-        var httpStringContent = new StringContent(jsonStringRequest, Encoding.UTF8, "application/json");
-
         var httpRequest = new HttpRequestMessage();
         httpRequest.Method = HttpMethod.Post;
-        httpRequest.Content = httpStringContent;
+        httpRequest.Content = jsonContent;
 
         var response = await this.httpClient.SendAsync(httpRequest);
         if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
@@ -92,7 +90,7 @@ public class Client
                 updateSessionId(session);
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Post;
-                httpRequest.Content = httpStringContent;
+                httpRequest.Content = jsonContent;
             }
 
         }
