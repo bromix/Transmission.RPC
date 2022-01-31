@@ -80,12 +80,12 @@ public class Client
         throw new InvalidOperationException($"Server returned with {response.StatusCode}");
     }
 
-    public void Test()
+    public IEnumerable<Torrent> TorrentGet()
     {
-        TestAsync().Wait();
+        return TorrentGetAsync().Result;
     }
 
-    public async Task TestAsync()
+    public async Task<Torrent[]> TorrentGetAsync()
     {
         var payload = new TorrentRequest();
         payload.arguments = new()
@@ -113,6 +113,12 @@ public class Client
         var jsonContent = JsonContent.Create(payload, options: options);
 
         var response = await sendRequestAsync(jsonContent);
-        var x = 0;
+
+        var jsonStringResponse = await response.Content.ReadAsStringAsync();
+        var gqlData = JsonSerializer.Deserialize<Response>(jsonStringResponse, new JsonSerializerOptions()
+        {
+            PropertyNameCaseInsensitive = true
+        });
+        return gqlData.Arguments.Torrents;
     }
 }
