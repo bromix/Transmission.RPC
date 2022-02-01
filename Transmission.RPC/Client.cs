@@ -98,14 +98,25 @@ public class Client
                 "isFinished",
                 "isPrivate",
                 "rateDownload",
+                "file-count",
                 "totalSize",
+                "hashString",
+                "activityDate",
+                "startDate",
+                "editDate",
+                "doneDate",
+                "dateCreated",
+                "addedDate",
                 "sizeWhenDone",
+                "downloadDir",
+                "dht-enabled",
+                "pex-enabled",
                 "eta",
                 "comment"
             }
         };
 
-        var options = new JsonSerializerOptions()
+        JsonSerializerOptions options = new()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
