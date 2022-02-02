@@ -7,15 +7,24 @@ using System.Text.Json.Serialization;
 namespace Transmission.RPC;
 public class Client
 {
-    class arguments
+public enum RequestMethod
     {
-        public List<string> fields { get; set; } = new List<string>();
+        TorrentGet,
+        TorrentAdd
     }
-
-    class TorrentRequest
+    class Request
     {
-        public string method { get; set; } = "torrent-get";
-        public arguments arguments { get; set; } = new arguments();
+        public Request(RequestMethod method)
+        {
+            Method = method;
+        }
+
+        [JsonPropertyName("method")]
+        [JsonConverter(typeof(TorrentRequestMethodJsonConverter))]
+        public RequestMethod Method { get; init; }
+
+        [JsonPropertyName("arguments")]
+        public object? arguments { get; set; }
     }
 
     private HttpClient httpClient;
@@ -80,46 +89,59 @@ public class Client
         throw new InvalidOperationException($"Server returned with {response.StatusCode}");
     }
 
-    public IEnumerable<Torrent> TorrentGet()
+    public abstract class TorrentRequestArguments
     {
-        return TorrentGetAsync().Result;
     }
 
-    public async Task<Torrent[]> TorrentGetAsync()
+    public class TorrentGetArguments: TorrentRequestArguments
     {
-        var payload = new TorrentRequest();
-        payload.arguments = new()
-        {
-            fields = new()
-            {
-                "id",
-                "percentDone",
-                "name",
-                "isFinished",
-                "isPrivate",
-                "rateDownload",
-                "file-count",
-                "totalSize",
-                "hashString",
-                "activityDate",
-                "startDate",
-                "editDate",
-                "doneDate",
-                "dateCreated",
-                "addedDate",
-                "sizeWhenDone",
-                "downloadDir",
-                "dht-enabled",
-                "pex-enabled",
-                "eta",
-                "comment"
-            }
-        };
+        [JsonPropertyName("fields")]
+        public List<string> Fields { get; set; } = new List<string>();
+    }
+
+    public IEnumerable<Torrent> TorrentGet(TorrentGetArguments arguments)
+    {
+        return TorrentGetAsync(arguments).Result;
+    }
+
+    public async Task<Torrent[]> TorrentGetAsync(TorrentGetArguments arguments)
+    {
+        var payload = new Request(RequestMethod.TorrentGet);
+        payload.arguments = arguments;
+        // payload.arguments = new()
+        // {
+        //     fields = new()
+        //     {
+        //         "id",
+        //         "percentDone",
+        //         "name",
+        //         "isFinished",
+        //         "isPrivate",
+        //         "rateDownload",
+        //         "file-count",
+        //         "totalSize",
+        //         "hashString",
+        //         "activityDate",
+        //         "startDate",
+        //         "editDate",
+        //         "doneDate",
+        //         "dateCreated",
+        //         "addedDate",
+        //         "sizeWhenDone",
+        //         "downloadDir",
+        //         "dht-enabled",
+        //         "pex-enabled",
+        //         "eta",
+        //         "comment"
+        //     }
+        // };
 
         JsonSerializerOptions options = new()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
+
+        var _DEBUG = JsonSerializer.Serialize(payload);
 
         var jsonContent = JsonContent.Create(payload, options: options);
 
@@ -131,5 +153,60 @@ public class Client
             PropertyNameCaseInsensitive = true
         });
         return gqlData.Arguments.Torrents;
+    }
+
+    public class TorrentAddArguments: TorrentRequestArguments
+    {
+        /// <summary>
+        /// Filename or URL of the .torrent file.
+        /// </summary>
+        [JsonPropertyName("filename")]
+        public string? Filename { get; set; }
+
+        /// <summary>
+        /// Base64-encoded .torrent content.
+        /// </summary>
+        [JsonPropertyName("metainfo")]
+        public string? metainfo { get; set; }
+
+        /// <summary>
+        /// Path to download the torrent to.
+        /// </summary>
+        [JsonPropertyName("download-dir")]
+        public string? DownloadDir { get; set; }
+
+        /// <summary>
+        /// If true, don't start the torrent.
+        /// </summary>
+        [JsonPropertyName("paused")]
+        public bool? Paused { get; set; }
+    }
+
+    public void TorrentAdd(TorrentAddArguments arguments)
+    {
+        TorrentAddAsync(arguments).Wait();
+    }
+
+    public async Task TorrentAddAsync(TorrentAddArguments arguments)
+    {
+        var payload = new Request(RequestMethod.TorrentAdd);
+        payload.arguments = arguments;
+
+        JsonSerializerOptions options = new()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        };
+
+        var _DEBUG = JsonSerializer.Serialize(payload);
+
+        var jsonContent = JsonContent.Create(payload, options: options);
+
+        var response = await sendRequestAsync(jsonContent);
+
+        var jsonStringResponse = await response.Content.ReadAsStringAsync();
+        var gqlData = JsonSerializer.Deserialize<Response>(jsonStringResponse, new JsonSerializerOptions()
+        {
+            PropertyNameCaseInsensitive = true
+        });
     }
 }
