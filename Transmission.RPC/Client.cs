@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 namespace Transmission.RPC;
 public class Client
 {
-public enum RequestMethod
+    public enum RequestMethod
     {
         TorrentGet,
         TorrentAdd
@@ -89,11 +89,7 @@ public enum RequestMethod
         throw new InvalidOperationException($"Server returned with {response.StatusCode}");
     }
 
-    public abstract class TorrentRequestArguments
-    {
-    }
-
-    public class TorrentGetArguments: TorrentRequestArguments
+    public class TorrentGetArguments
     {
         [JsonPropertyName("fields")]
         public List<string> Fields { get; set; } = new List<string>();
@@ -155,7 +151,7 @@ public enum RequestMethod
         return gqlData.Arguments.Torrents;
     }
 
-    public class TorrentAddArguments: TorrentRequestArguments
+    public class TorrentAddArguments
     {
         /// <summary>
         /// Filename or URL of the .torrent file.
