@@ -91,8 +91,15 @@ public class Client
 
     public class TorrentGetArguments
     {
+        public enum FieldType
+        {
+            Id,
+            Name
+        };
+
         [JsonPropertyName("fields")]
-        public List<string> Fields { get; set; } = new List<string>();
+        [JsonConverter(typeof(FieldTypeJsonConverter))]
+        public List<FieldType> Fields { get; set; } = new List<FieldType>();
     }
 
     public IEnumerable<Torrent> TorrentGet(TorrentGetArguments arguments)
