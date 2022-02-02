@@ -29,11 +29,11 @@ public class Torrent
     public DateTime? StartDate { get; init; }
 
     [JsonPropertyName("dht-enabled")]
-    [JsonConverter(typeof(NumberToBoolJsonConverter))]
+    [JsonConverter(typeof(BoolJsonConverter))]
     public bool? DhtEnabled { get; init; }
 
     [JsonPropertyName("pex-enabled")]
-    [JsonConverter(typeof(NumberToBoolJsonConverter))]
+    [JsonConverter(typeof(BoolJsonConverter))]
     public bool? PexEnabled { get; init; }
 
     public int? QueuePosition { get; init; }
