@@ -1,12 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace Transmission.RPC;
+namespace Transmission.RPC.Response;
 
-public class Response
+public class Unknown: Base
 {
-    [JsonPropertyName("result")]
-    public string Result { get; init; } = default!;
-
     [JsonPropertyName("arguments")]
     public Dictionary<string, object>? Arguments { get; set; }
 }
