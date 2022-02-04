@@ -7,26 +7,6 @@ using System.Text.Json.Serialization;
 namespace Transmission.RPC;
 public class Client
 {
-    public enum RequestMethod
-    {
-        TorrentGet,
-        TorrentAdd
-    }
-    class Request
-    {
-        public Request(RequestMethod method)
-        {
-            Method = method;
-        }
-
-        [JsonPropertyName("method")]
-        [JsonConverter(typeof(TorrentRequestMethodJsonConverter))]
-        public RequestMethod Method { get; init; }
-
-        [JsonPropertyName("arguments")]
-        public object? arguments { get; set; }
-    }
-
     private HttpClient httpClient;
 
     public Client(string url, string username, string password) : this(new Uri(url), username, password) { }
@@ -89,27 +69,14 @@ public class Client
         throw new InvalidOperationException($"Server returned with {response.StatusCode}");
     }
 
-    public class TorrentGetArguments
-    {
-        public enum FieldType
-        {
-            Id,
-            Name
-        };
-
-        [JsonPropertyName("fields")]
-        [JsonConverter(typeof(FieldTypeJsonConverter))]
-        public List<FieldType> Fields { get; set; } = new List<FieldType>();
-    }
-
-    public IEnumerable<Torrent> TorrentGet(TorrentGetArguments arguments)
+    public IEnumerable<Torrent> TorrentGet(Arguments.TorrentGet arguments)
     {
         return TorrentGetAsync(arguments).Result;
     }
 
-    public async Task<Torrent[]> TorrentGetAsync(TorrentGetArguments arguments)
+    public async Task<Torrent[]> TorrentGetAsync(Arguments.TorrentGet arguments)
     {
-        var payload = new Request(RequestMethod.TorrentGet);
+        var payload = new Request("torrent-get");
         payload.arguments = arguments;
         // payload.arguments = new()
         // {
@@ -144,8 +111,6 @@ public class Client
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
 
-        var _DEBUG = JsonSerializer.Serialize(payload);
-
         var jsonContent = JsonContent.Create(payload, options: options);
 
         var response = await sendRequestAsync(jsonContent);
@@ -155,52 +120,25 @@ public class Client
         {
             PropertyNameCaseInsensitive = true
         });
-        return gqlData.Arguments.Torrents;
+        return null;
     }
 
-    public class TorrentAddArguments
-    {
-        /// <summary>
-        /// Filename or URL of the .torrent file.
-        /// </summary>
-        [JsonPropertyName("filename")]
-        public string? Filename { get; set; }
+    
 
-        /// <summary>
-        /// Base64-encoded .torrent content.
-        /// </summary>
-        [JsonPropertyName("metainfo")]
-        public string? metainfo { get; set; }
-
-        /// <summary>
-        /// Path to download the torrent to.
-        /// </summary>
-        [JsonPropertyName("download-dir")]
-        public string? DownloadDir { get; set; }
-
-        /// <summary>
-        /// If true, don't start the torrent.
-        /// </summary>
-        [JsonPropertyName("paused")]
-        public bool? Paused { get; set; }
-    }
-
-    public void TorrentAdd(TorrentAddArguments arguments)
+    public void TorrentAdd(Arguments.TorrentAdd arguments)
     {
         TorrentAddAsync(arguments).Wait();
     }
 
-    public async Task TorrentAddAsync(TorrentAddArguments arguments)
+    public async Task TorrentAddAsync(Arguments.TorrentAdd arguments)
     {
-        var payload = new Request(RequestMethod.TorrentAdd);
+        var payload = new Request("torrent-add");
         payload.arguments = arguments;
 
         JsonSerializerOptions options = new()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
-
-        var _DEBUG = JsonSerializer.Serialize(payload);
 
         var jsonContent = JsonContent.Create(payload, options: options);
 

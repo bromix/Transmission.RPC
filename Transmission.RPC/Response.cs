@@ -1,11 +1,12 @@
+using System.Text.Json.Serialization;
+
 namespace Transmission.RPC;
 
 public class Response
 {
-    public Arguments? Arguments { get; set; }
-}
+    [JsonPropertyName("result")]
+    public string Result { get; init; } = default!;
 
-public class Arguments
-{
-    public Torrent[]? Torrents { get; set; }
+    [JsonPropertyName("arguments")]
+    public Dictionary<string, object>? Arguments { get; set; }
 }
