@@ -69,12 +69,12 @@ public class Client
         throw new InvalidOperationException($"Server returned with {response.StatusCode}");
     }
 
-    public Response.Unknown TorrentGet(Arguments.TorrentGet arguments)
+    public Response.TorrentGet TorrentGet(Arguments.TorrentGet arguments)
     {
         return TorrentGetAsync(arguments).Result;
     }
 
-    public async Task<Response.Unknown> TorrentGetAsync(Arguments.TorrentGet arguments)
+    public async Task<Response.TorrentGet> TorrentGetAsync(Arguments.TorrentGet arguments)
     {
         var payload = new Request("torrent-get");
         payload.arguments = arguments;
@@ -116,7 +116,7 @@ public class Client
         var response = await sendRequestAsync(jsonContent);
 
         var jsonStringResponse = await response.Content.ReadAsStringAsync();
-        var unknownResponse = JsonSerializer.Deserialize<Response.Unknown>(jsonStringResponse, new JsonSerializerOptions()
+        var unknownResponse = JsonSerializer.Deserialize<Response.TorrentGet>(jsonStringResponse, new JsonSerializerOptions()
         {
             PropertyNameCaseInsensitive = true
         });
