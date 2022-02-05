@@ -125,12 +125,12 @@ public class Client
 
     
 
-    public void TorrentAdd(Arguments.TorrentAdd arguments)
+    public Response.TorrentAdd TorrentAdd(Arguments.TorrentAdd arguments)
     {
-        TorrentAddAsync(arguments).Wait();
+        return TorrentAddAsync(arguments).Result;
     }
 
-    public async Task TorrentAddAsync(Arguments.TorrentAdd arguments)
+    public async Task<Response.TorrentAdd> TorrentAddAsync(Arguments.TorrentAdd arguments)
     {
         var payload = new Request("torrent-add");
         payload.arguments = arguments;
@@ -145,9 +145,11 @@ public class Client
         var response = await sendRequestAsync(jsonContent);
 
         var jsonStringResponse = await response.Content.ReadAsStringAsync();
-        var unknownResponse = JsonSerializer.Deserialize<Response.Unknown>(jsonStringResponse, new JsonSerializerOptions()
+        var unknownResponse = JsonSerializer.Deserialize<Response.TorrentAdd>(jsonStringResponse, new JsonSerializerOptions()
         {
             PropertyNameCaseInsensitive = true
         });
+
+        return unknownResponse;
     }
 }
