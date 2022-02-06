@@ -1,17 +1,16 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using static Transmission.RPC.Client;
 
 namespace Transmission.RPC;
 
-public class FieldTypeJsonConverter : JsonConverter<List<Arguments.TorrentGet.FieldType>>
+public class FieldTypeJsonConverter : JsonConverter<List<TorrentGetRequestArguments.FieldType>>
 {
-    public override List<Arguments.TorrentGet.FieldType>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override List<TorrentGetRequestArguments.FieldType>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         throw new NotImplementedException();
     }
 
-    public override void Write(Utf8JsonWriter writer, List<Arguments.TorrentGet.FieldType> value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, List<TorrentGetRequestArguments.FieldType> value, JsonSerializerOptions options)
     {
         if (value.Count == 0) return;
 
@@ -20,8 +19,8 @@ public class FieldTypeJsonConverter : JsonConverter<List<Arguments.TorrentGet.Fi
         {
             string fieldName = fieldType switch
             {
-                Arguments.TorrentGet.FieldType.Id => "id",
-                Arguments.TorrentGet.FieldType.Name => "name",
+                TorrentGetRequestArguments.FieldType.Id => "id",
+                TorrentGetRequestArguments.FieldType.Name => "name",
                 _ => throw new ArgumentException($"Unknown method {value}."),
             };
 

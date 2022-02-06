@@ -69,12 +69,12 @@ public class Client
         throw new InvalidOperationException($"Server returned with {response.StatusCode}");
     }
 
-    public Response.TorrentGet TorrentGet(Arguments.TorrentGet arguments)
+    public TorrentGetResponse TorrentGet(TorrentGetRequestArguments arguments)
     {
         return TorrentGetAsync(arguments).Result;
     }
 
-    public async Task<Response.TorrentGet> TorrentGetAsync(Arguments.TorrentGet arguments)
+    public async Task<TorrentGetResponse> TorrentGetAsync(TorrentGetRequestArguments arguments)
     {
         var payload = new Request("torrent-get");
         payload.arguments = arguments;
@@ -116,7 +116,7 @@ public class Client
         var response = await sendRequestAsync(jsonContent);
 
         var jsonStringResponse = await response.Content.ReadAsStringAsync();
-        var unknownResponse = JsonSerializer.Deserialize<Response.TorrentGet>(jsonStringResponse, new JsonSerializerOptions()
+        var unknownResponse = JsonSerializer.Deserialize<TorrentGetResponse>(jsonStringResponse, new JsonSerializerOptions()
         {
             PropertyNameCaseInsensitive = true
         });
@@ -125,12 +125,12 @@ public class Client
 
     
 
-    public Response.TorrentAdd TorrentAdd(Arguments.TorrentAdd arguments)
+    public TorrentAddResponse TorrentAdd(TorrentAddRequestArguments arguments)
     {
         return TorrentAddAsync(arguments).Result;
     }
 
-    public async Task<Response.TorrentAdd> TorrentAddAsync(Arguments.TorrentAdd arguments)
+    public async Task<TorrentAddResponse> TorrentAddAsync(TorrentAddRequestArguments arguments)
     {
         var payload = new Request("torrent-add");
         payload.arguments = arguments;
@@ -145,7 +145,7 @@ public class Client
         var response = await sendRequestAsync(jsonContent);
 
         var jsonStringResponse = await response.Content.ReadAsStringAsync();
-        var unknownResponse = JsonSerializer.Deserialize<Response.TorrentAdd>(jsonStringResponse, new JsonSerializerOptions()
+        var unknownResponse = JsonSerializer.Deserialize<TorrentAddResponse>(jsonStringResponse, new JsonSerializerOptions()
         {
             PropertyNameCaseInsensitive = true
         });

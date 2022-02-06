@@ -22,12 +22,12 @@ public class TestClient : IClassFixture<EnvironmentFixture>
     [Fact]
     public void ClientGet()
     {
-        Arguments.TorrentGet arguments = new()
+        TorrentGetRequestArguments arguments = new()
         {
             Fields = new()
             {
-                Arguments.TorrentGet.FieldType.Id,
-                Arguments.TorrentGet.FieldType.Name
+                TorrentGetRequestArguments.FieldType.Id,
+                TorrentGetRequestArguments.FieldType.Name
             }
         };
         var torrents = client.TorrentGet(arguments);
@@ -40,11 +40,10 @@ public class TestClient : IClassFixture<EnvironmentFixture>
     [Fact]
     public void ClientAdd()
     {
-        Arguments.TorrentAdd arguments = new()
+        TorrentAddRequestArguments arguments = new()
         {
             Filename = "https://releases.ubuntu.com/20.04/ubuntu-20.04.3-desktop-amd64.iso.torrent",
-            Paused = true,
-            DownloadDir = "/media/torrents/linux"
+            Paused = true
         };
 
         var result = client.TorrentAdd(arguments);

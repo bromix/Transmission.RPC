@@ -19,3 +19,49 @@ public class Request
     [JsonPropertyName("arguments")]
     public object? arguments { get; set; }
 }
+
+/// <summary>
+/// Method: "torrent-add"
+/// </summary>
+public class TorrentAddRequestArguments
+{
+    /// <summary>
+    /// Filename or URL of the .torrent file.
+    /// </summary>
+    [JsonPropertyName("filename")]
+    public string? Filename { get; set; }
+
+    /// <summary>
+    /// Base64-encoded .torrent content.
+    /// </summary>
+    [JsonPropertyName("metainfo")]
+    public string? metainfo { get; set; }
+
+    /// <summary>
+    /// Path to download the torrent to.
+    /// </summary>
+    [JsonPropertyName("download-dir")]
+    public string? DownloadDir { get; set; }
+
+    /// <summary>
+    /// If true, don't start the torrent.
+    /// </summary>
+    [JsonPropertyName("paused")]
+    public bool? Paused { get; set; }
+}
+
+/// <summary>
+/// Method: "torrent-get"
+/// </summary>
+public class TorrentGetRequestArguments
+{
+    public enum FieldType
+    {
+        Id,
+        Name
+    };
+
+    [JsonPropertyName("fields")]
+    [JsonConverter(typeof(FieldTypeJsonConverter))]
+    public List<FieldType> Fields { get; set; } = new List<FieldType>();
+}
