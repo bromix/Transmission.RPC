@@ -26,8 +26,12 @@ public class TestClient : IClassFixture<EnvironmentFixture>
         {
             Fields = new()
             {
-                TorrentGetRequestArguments.FieldType.Id,
-                TorrentGetRequestArguments.FieldType.Name
+                TorrentGetRequestArguments.Field.Id,
+                TorrentGetRequestArguments.Field.Name,
+                TorrentGetRequestArguments.Field.IsPrivate,
+                TorrentGetRequestArguments.Field.IsStalled,
+                TorrentGetRequestArguments.Field.AddedDate,
+                TorrentGetRequestArguments.Field.TorrentFile
             }
         };
         var torrents = client.TorrentGet(arguments);
