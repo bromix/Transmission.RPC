@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Transmission.RPC;
 
-public class Torrent
+public record Torrent
 {
     [JsonConverter(typeof(DateTimeJsonConverter))]
     public DateTime? ActivityDate { get; init; }

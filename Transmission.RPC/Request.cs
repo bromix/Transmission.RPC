@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 
 namespace Transmission.RPC;
-public class Request
+public record Request
 {
     private static int tagCounter = 0;
     public Request(string method)
@@ -23,7 +23,7 @@ public class Request
 /// <summary>
 /// Method: "torrent-add"
 /// </summary>
-public class TorrentAddRequestArguments
+public record TorrentAddRequestArguments
 {
     /// <summary>
     /// Filename or URL of the .torrent file.

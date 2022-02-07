@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Transmission.RPC;
 
-public class Base<TArguments>
+public record Base<TArguments>
 {
     public string Result { get; init; } = default!;
     public TArguments? Arguments { get; init; }
@@ -10,20 +10,20 @@ public class Base<TArguments>
 }
 
 
-public class TorrentGetResponseArguments
+public record TorrentGetResponseArguments
 {
     public Torrent[]? Torrents { get; init; }
 }
-public class TorrentGetResponse : Base<TorrentGetResponseArguments> { }
+public record TorrentGetResponse : Base<TorrentGetResponseArguments> { }
 
 
-public class TorrentAddInfo
+public record TorrentAddInfo
 {
     public string HashString { get; init; } = default!;
     public int id { get; init; } = default!;
     public string Name { get; init; } = default!;
 }
-public class TorrentAddResponseArguments
+public record TorrentAddResponseArguments
 {
     [JsonPropertyName("torrent-added")]
     public TorrentAddInfo? TorrentAdded { get; init; }
@@ -32,4 +32,4 @@ public class TorrentAddResponseArguments
     public TorrentAddInfo? TorrentDuplicate { get; init; }
 }
 
-public class TorrentAddResponse : Base<TorrentAddResponseArguments> { }
+public record TorrentAddResponse : Base<TorrentAddResponseArguments> { }
