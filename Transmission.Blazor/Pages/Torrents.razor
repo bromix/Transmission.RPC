@@ -53,6 +53,15 @@ else
             }
         };
 
-        torrents = (await TorrentClient.TorrentGetAsync(arguments))?.Arguments?.Torrents?.OrderBy(_ => _.IsStalled).ToArray();
+        torrents = (await TorrentClient.TorrentGetAsync(arguments))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
+
+        System.Timers.Timer t = new System.Timers.Timer();
+        t.Elapsed += async (s, e) =>
+        {
+            torrents = (await TorrentClient.TorrentGetAsync(arguments))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
+            await InvokeAsync(StateHasChanged);
+        };
+        t.Interval = 2000;
+        t.Start();
     }
 }
