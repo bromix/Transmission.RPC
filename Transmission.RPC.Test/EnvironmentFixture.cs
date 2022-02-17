@@ -7,20 +7,12 @@ public class EnvironmentFixture : IDisposable
 {
     public EnvironmentFixture()
     {
-        var pathOfTest = AppDomain.CurrentDomain.BaseDirectory;
-        var envFileName = Path.Combine(pathOfTest, ".env");
-        if (!File.Exists(envFileName)) return;
-        foreach (string line in System.IO.File.ReadLines(envFileName))
-        {
-            var values = line.Split("=");
-            if (values.Length != 2) continue;
-            Environment.SetEnvironmentVariable(values[0], values[1]);
-        }
+        Transmission.RPC.Environment.Load();
     }
 
-    public string TransmissionUrl => Environment.GetEnvironmentVariable("TRANSMISSION_URL") ?? throw new InvalidOperationException("TRANSMISSION_URL is missing in Environment Variables.");
-    public string TransmissionUserName => Environment.GetEnvironmentVariable("TRANSMISSION_USERNAME") ?? throw new InvalidOperationException("TRANSMISSION_USERNAME is missing in Environment Variables.");
-    public string TransmissionPassword => Environment.GetEnvironmentVariable("TRANSMISSION_PASSWORD") ?? throw new InvalidOperationException("TRANSMISSION_PASSWORD is missing in Environment Variables.");
+    public string TransmissionUrl => System.Environment.GetEnvironmentVariable("TRANSMISSION_URL") ?? throw new InvalidOperationException("TRANSMISSION_URL is missing in Environment Variables.");
+    public string TransmissionUserName => System.Environment.GetEnvironmentVariable("TRANSMISSION_USERNAME") ?? throw new InvalidOperationException("TRANSMISSION_USERNAME is missing in Environment Variables.");
+    public string TransmissionPassword => System.Environment.GetEnvironmentVariable("TRANSMISSION_PASSWORD") ?? throw new InvalidOperationException("TRANSMISSION_PASSWORD is missing in Environment Variables.");
 
     public void Dispose()
     {

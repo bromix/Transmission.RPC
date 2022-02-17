@@ -2,12 +2,26 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Transmission.Blazor.Data;
 
+Transmission.RPC.Environment.Load();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddSingleton<Transmission.RPC.Client>(serviceProvider =>
+{
+    var transmissionUrl = System.Environment.GetEnvironmentVariable("TRANSMISSION_URL") ?? throw new InvalidOperationException("TRANSMISSION_URL is missing in Environment Variables.");
+    var transmissionUserName = System.Environment.GetEnvironmentVariable("TRANSMISSION_USERNAME") ?? throw new InvalidOperationException("TRANSMISSION_USERNAME is missing in Environment Variables.");
+    var transmissionPassword = System.Environment.GetEnvironmentVariable("TRANSMISSION_PASSWORD") ?? throw new InvalidOperationException("TRANSMISSION_PASSWORD is missing in Environment Variables.");
+    Transmission.RPC.Client client = new(
+        transmissionUrl,
+        transmissionUserName,
+        transmissionPassword
+    );
+    return client;
+});
 
 var app = builder.Build();
 

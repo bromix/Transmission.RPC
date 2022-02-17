@@ -1,0 +1,58 @@
+@page "/torrents"
+@using System.Linq
+@inject Transmission.RPC.Client TorrentClient
+
+<PageTitle>Torrents</PageTitle>
+
+<h1>Torrents</h1>
+
+@if (torrents == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Stalled</th>
+                <th>Added</th>
+                <th>Hash</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var torrent in torrents)
+            {
+                <tr>
+                    <td>@torrent.Name</td>
+                    <td>@torrent.IsStalled</td>
+                    <td>@torrent.AddedDate</td>
+                    <td>@torrent.HashString</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Transmission.RPC.Torrent[]? torrents;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Transmission.RPC.TorrentGetRequestArguments arguments = new()
+        {
+            Fields = new()
+            {
+                Transmission.RPC.TorrentGetRequestArguments.Field.Id,
+                Transmission.RPC.TorrentGetRequestArguments.Field.Name,
+                Transmission.RPC.TorrentGetRequestArguments.Field.IsPrivate,
+                Transmission.RPC.TorrentGetRequestArguments.Field.IsStalled,
+                Transmission.RPC.TorrentGetRequestArguments.Field.AddedDate,
+                Transmission.RPC.TorrentGetRequestArguments.Field.HashString
+            }
+        };
+
+        torrents = (await TorrentClient.TorrentGetAsync(arguments))?.Arguments?.Torrents?.OrderBy(_ => _.IsStalled).ToArray();
+    }
+}
