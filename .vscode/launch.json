@@ -5,10 +5,30 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-Transmission.Blazor",
+            "program": "${workspaceFolder}/Transmission.Blazor/bin/Debug/net6.0/Transmission.Blazor.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
             "name": ".NET Core Launch (console)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "build-Transmission.RPC",
             "program": "${workspaceFolder}/Transmission.RPC.Test/bin/Debug/net6.0/Transmission.RPC.Test.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Transmission.RPC.Test",
