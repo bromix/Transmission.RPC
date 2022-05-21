@@ -2,24 +2,24 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build-Transmission.RPC",
+            "label": "build-Bromix.Transmission.RPC",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Transmission.RPC/Transmission.RPC.csproj",
+                "${workspaceFolder}/Bromix.Transmission.RPC/Bromix.Transmission.RPC.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "build-Transmission.Blazor",
+            "label": "build-Bromix.Transmission.Blazor",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Transmission.Blazor/Transmission.Blazor.csproj",
+                "${workspaceFolder}/Bromix.Transmission.Blazor/Bromix.Transmission.Blazor.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -31,7 +31,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Transmission.RPC.Test/Transmission.RPC.Test.csproj",
+                "${workspaceFolder}/Bromix.Transmission.RPC.Test/Bromix.Transmission.RPC.Test.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -45,7 +45,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/Transmission.RPC.Test/Transmission.RPC.Test.csproj"
+                "${workspaceFolder}/Bromix.Transmission.RPC.Test/Bromix.Transmission.RPC.Test.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
