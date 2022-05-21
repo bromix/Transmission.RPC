@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Bromix.Transmission.Blazor.Data;
 
 Bromix.Transmission.RPC.Environment.Load();
