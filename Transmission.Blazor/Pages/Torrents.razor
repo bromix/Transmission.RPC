@@ -1,12 +1,10 @@
 @page "/torrents"
-@using System.Linq
-@inject Transmission.RPC.Client TorrentClient
 
 <PageTitle>Torrents</PageTitle>
 
 <h1>Torrents</h1>
 
-@if (torrents == null)
+@if (@TorrentsList == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -22,7 +20,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var torrent in torrents)
+            @foreach (var torrent in @TorrentsList)
             {
                 <tr>
                     <td>@torrent.Name</td>
@@ -35,33 +33,4 @@ else
     </table>
 }
 
-@code {
-    private Transmission.RPC.Torrent[]? torrents;
-
-    protected override async Task OnInitializedAsync()
-    {
-        Transmission.RPC.TorrentGetRequestArguments arguments = new()
-        {
-            Fields = new()
-            {
-                Transmission.RPC.TorrentGetRequestArguments.Field.Id,
-                Transmission.RPC.TorrentGetRequestArguments.Field.Name,
-                Transmission.RPC.TorrentGetRequestArguments.Field.IsPrivate,
-                Transmission.RPC.TorrentGetRequestArguments.Field.IsStalled,
-                Transmission.RPC.TorrentGetRequestArguments.Field.AddedDate,
-                Transmission.RPC.TorrentGetRequestArguments.Field.HashString
-            }
-        };
-
-        torrents = (await TorrentClient.TorrentGetAsync(arguments))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
-
-        System.Timers.Timer t = new System.Timers.Timer();
-        t.Elapsed += async (s, e) =>
-        {
-            torrents = (await TorrentClient.TorrentGetAsync(arguments))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
-            await InvokeAsync(StateHasChanged);
-        };
-        t.Interval = 2000;
-        t.Start();
-    }
-}
+@code{}

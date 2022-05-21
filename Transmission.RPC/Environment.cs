@@ -9,9 +9,13 @@ public static class Environment
         if (!File.Exists(envFileName)) return;
         foreach (string line in System.IO.File.ReadLines(envFileName))
         {
-            var values = line.Split("=");
-            if (values.Length != 2) continue;
-            System.Environment.SetEnvironmentVariable(values[0], values[1]);
+            var index = line.IndexOf("=");
+            if (index > 0)
+            {
+                var key = line.Substring(0, index);
+                var value = line.Substring(index + 1);
+                System.Environment.SetEnvironmentVariable(key, value);
+            }
         }
     }
 }
