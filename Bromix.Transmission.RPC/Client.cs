@@ -57,7 +57,7 @@ public class Client
         {
             // break recursion if a newSessionId was provided.
             if (!String.IsNullOrWhiteSpace(newSessionId))
-                throw new InvalidOperationException("Session Id coud not be updated twice.");
+                throw new InvalidOperationException("Session Id could not be updated twice.");
 
             var session = response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
             if (!String.IsNullOrWhiteSpace(session))
