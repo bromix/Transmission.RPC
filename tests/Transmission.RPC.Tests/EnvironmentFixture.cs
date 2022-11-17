@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Transmission.RPC.Test;
+namespace Transmission.RPC.Tests;
 
 public class EnvironmentFixture : IDisposable
 {

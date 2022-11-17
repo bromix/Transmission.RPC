@@ -1,6 +1,7 @@
+using Transmission.RPC;
 using Xunit;
 
-namespace Transmission.RPC.Test;
+namespace Transmission.RPC.Tests;
 
 public class TestClient : IClassFixture<EnvironmentFixture>
 {
