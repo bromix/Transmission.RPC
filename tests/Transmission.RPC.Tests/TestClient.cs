@@ -1,24 +1,20 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Transmission.RPC;
 using Xunit;
 
 namespace Transmission.RPC.Tests;
 
-public class TestClient : IClassFixture<EnvironmentFixture>
+public sealed class TestClient : IClassFixture<EnvFile>
 {
-    private EnvironmentFixture _environmentFixture;
-    private Client _client;
+    private readonly Client _client;
 
-    public TestClient(EnvironmentFixture environmentFixture)
+    public TestClient(EnvFile envFile)
     {
-        this._environmentFixture = environmentFixture;
-
-        this._client = new global::Transmission.RPC.Client
+        _client = new Client
         (
-            environmentFixture.TransmissionUrl,
-            environmentFixture.TransmissionUserName,
-            environmentFixture.TransmissionPassword
+            envFile.TransmissionUrl,
+            envFile.TransmissionUserName,
+            envFile.TransmissionPassword
         );
     }
 

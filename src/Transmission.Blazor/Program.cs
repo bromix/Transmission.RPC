@@ -1,4 +1,4 @@
-Transmission.RPC.Environment.Load();
+//Transmission.RPC.Environment.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 

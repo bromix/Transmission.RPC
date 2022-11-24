@@ -43,6 +43,10 @@ public sealed class Client
     {
         if (!string.IsNullOrWhiteSpace(newSessionId))
             UpdateSessionId(newSessionId);
+        else
+        {
+            UpdateSessionId("a");
+        }
 
         var httpRequest = new HttpRequestMessage();
         httpRequest.Method = HttpMethod.Post;
