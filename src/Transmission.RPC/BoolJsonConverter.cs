@@ -13,7 +13,7 @@ public class BoolJsonConverter : JsonConverter<bool>
         if (reader.TokenType == JsonTokenType.String)
         {
             var value = reader.GetString()?.ToLower();
-            if (!String.IsNullOrWhiteSpace(value))
+            if (!string.IsNullOrWhiteSpace(value))
             {
                 if (value == "true") return true;
                 if (value == "false") return false;

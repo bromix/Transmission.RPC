@@ -2,13 +2,14 @@ using System.Text.Json.Serialization;
 
 namespace Transmission.RPC;
 
-public record Torrent
+public sealed record Torrent
 {
     [JsonConverter(typeof(DateTimeJsonConverter))]
     public DateTime? ActivityDate { get; init; }
 
     [JsonConverter(typeof(DateTimeJsonConverter))]
     public DateTime? AddedDate { get; init; }
+
     public int? BandwidthPriority { get; init; }
     public string? Comment { get; init; }
     public int CorruptEver { get; init; }
@@ -16,10 +17,12 @@ public record Torrent
 
     [JsonConverter(typeof(DateTimeJsonConverter))]
     public DateTime? DateCreated { get; init; }
+
     public int DesiredAvailable { get; init; }
 
     [JsonConverter(typeof(DateTimeJsonConverter))]
     public DateTime? DoneDate { get; init; }
+
     public string? DownloadDir { get; init; }
     public int? DownloadedEver { get; init; }
     public int? DownloadLimit { get; init; }
@@ -27,13 +30,13 @@ public record Torrent
 
     [JsonConverter(typeof(DateTimeJsonConverter))]
     public DateTime? EditDate { get; init; }
+
     public int? Error { get; init; }
     public string? ErrorString { get; init; }
     public int? Eta { get; init; }
     public int? EtaIdle { get; init; }
 
-    [JsonPropertyName("file-count")]
-    public int? FileCount { get; init; }
+    [JsonPropertyName("file-count")] public int? FileCount { get; init; }
 
     // files                       | array(see below)           | n/a
     // fileStats                   | array(see below)           | n/a
@@ -55,8 +58,7 @@ public record Torrent
     public double? MetadataPercentComplete { get; init; }
     public string? Name { get; init; }
 
-    [JsonPropertyName("peer-limit")]
-    public int? PeerLimit { get; init; }
+    [JsonPropertyName("peer-limit")] public int? PeerLimit { get; init; }
 
     //peers                       | array(see below)           | n/a
     public int? PeersConnected { get; init; }
@@ -67,10 +69,13 @@ public record Torrent
     public double? PercentDone { get; init; }
     public string? Pieces { get; init; }
     public int? PieceCount { get; init; }
+
     public int? PieceSize { get; init; }
+
     //priorities                  | array(see below)           | n/a
     [JsonPropertyName("primary-mime-type")]
     public string? PrimaryMimeType { get; init; }
+
     public int? QueuePosition { get; init; }
     public int? RateDownload { get; init; }
     public int? RateUpload { get; init; }
@@ -94,7 +99,9 @@ public record Torrent
     public int? PploadedEver { get; init; }
     public int? UploadLimit { get; init; }
     public bool? UploadLimited { get; init; }
+
     public double? UploadRatio { get; init; }
+
     //wanted                      | array(see below)           | n/a
     //webseeds                    | array(see below)           | n/a
     public int? WebseedsSendingToUs { get; init; }

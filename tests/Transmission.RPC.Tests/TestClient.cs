@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Transmission.RPC;
 using Xunit;
 
@@ -5,14 +7,14 @@ namespace Transmission.RPC.Tests;
 
 public class TestClient : IClassFixture<EnvironmentFixture>
 {
-    private EnvironmentFixture environmentFixture;
-    private Client client;
+    private EnvironmentFixture _environmentFixture;
+    private Client _client;
 
     public TestClient(EnvironmentFixture environmentFixture)
     {
-        this.environmentFixture = environmentFixture;
+        this._environmentFixture = environmentFixture;
 
-        this.client = new global::Transmission.RPC.Client
+        this._client = new global::Transmission.RPC.Client
         (
             environmentFixture.TransmissionUrl,
             environmentFixture.TransmissionUserName,
@@ -21,11 +23,11 @@ public class TestClient : IClassFixture<EnvironmentFixture>
     }
 
     [Fact]
-    public void ClientGet()
+    public async Task ClientGet()
     {
         TorrentGetRequestArguments arguments = new()
         {
-            Fields = new()
+            Fields = new List<TorrentGetRequestArguments.Field>
             {
                 TorrentGetRequestArguments.Field.Id,
                 TorrentGetRequestArguments.Field.Name,
@@ -35,7 +37,7 @@ public class TestClient : IClassFixture<EnvironmentFixture>
                 TorrentGetRequestArguments.Field.TorrentFile
             }
         };
-        var torrents = client.TorrentGet(arguments);
+        var torrents = await _client.TorrentGetAsync(arguments);
 
         // var torrent = torrents.First();
         // var diff = DateTime.UtcNow - torrent.ActivityDate;
@@ -43,7 +45,7 @@ public class TestClient : IClassFixture<EnvironmentFixture>
     }
 
     [Fact]
-    public void ClientAdd()
+    public async Task ClientAdd()
     {
         TorrentAddRequestArguments arguments = new()
         {
@@ -51,7 +53,7 @@ public class TestClient : IClassFixture<EnvironmentFixture>
             Paused = true
         };
 
-        var result = client.TorrentAdd(arguments);
+        var result = await _client.TorrentAddAsync(arguments);
         Assert.True(true);
     }
 }

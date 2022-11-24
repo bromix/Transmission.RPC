@@ -1,13 +1,13 @@
 using System.Text.Json.Serialization;
 
 namespace Transmission.RPC;
-public record Request
+public sealed record Request
 {
-    private static int tagCounter = 0;
+    private static int _tagCounter = 0;
     public Request(string method)
     {
         Method = method;
-        Tag = ++tagCounter;
+        Tag = ++_tagCounter;
     }
 
     [JsonPropertyName("method")]
@@ -17,13 +17,13 @@ public record Request
     public int Tag { get; init; }
 
     [JsonPropertyName("arguments")]
-    public object? arguments { get; set; }
+    public object? Arguments { get; set; }
 }
 
 /// <summary>
 /// Method: "torrent-add"
 /// </summary>
-public record TorrentAddRequestArguments
+public sealed record TorrentAddRequestArguments
 {
     /// <summary>
     /// Filename or URL of the .torrent file.
@@ -35,7 +35,7 @@ public record TorrentAddRequestArguments
     /// Base64-encoded .torrent content.
     /// </summary>
     [JsonPropertyName("metainfo")]
-    public string? metainfo { get; set; }
+    public string? Metainfo { get; set; }
 
     /// <summary>
     /// Path to download the torrent to.
@@ -53,7 +53,7 @@ public record TorrentAddRequestArguments
 /// <summary>
 /// Method: "torrent-get"
 /// </summary>
-public class TorrentGetRequestArguments
+public sealed class TorrentGetRequestArguments
 {
     public enum Field
     {

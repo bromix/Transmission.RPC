@@ -9,27 +9,30 @@ public record Base<TArguments>
     public int? Tag { get; init; }
 }
 
-
 public record TorrentGetResponseArguments
 {
     public Torrent[]? Torrents { get; init; }
 }
-public record TorrentGetResponse : Base<TorrentGetResponseArguments> { }
 
+public sealed record TorrentGetResponse : Base<TorrentGetResponseArguments>
+{
+}
 
-public record TorrentAddInfo
+public sealed record TorrentAddInfo
 {
     public string HashString { get; init; } = default!;
-    public int id { get; init; } = default!;
+    public int Id { get; init; } = default!;
     public string Name { get; init; } = default!;
 }
-public record TorrentAddResponseArguments
+
+public sealed record TorrentAddResponseArguments
 {
-    [JsonPropertyName("torrent-added")]
-    public TorrentAddInfo? TorrentAdded { get; init; }
+    [JsonPropertyName("torrent-added")] public TorrentAddInfo? TorrentAdded { get; init; }
 
     [JsonPropertyName("torrent-duplicate")]
     public TorrentAddInfo? TorrentDuplicate { get; init; }
 }
 
-public record TorrentAddResponse : Base<TorrentAddResponseArguments> { }
+public sealed record TorrentAddResponse : Base<TorrentAddResponseArguments>
+{
+}

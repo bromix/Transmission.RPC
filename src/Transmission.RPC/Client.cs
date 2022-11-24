@@ -5,27 +5,29 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Transmission.RPC;
-public class Client
+
+public sealed class Client
 {
-    private HttpClient httpClient;
-
-    public Client(string url, string username, string password) : this(new Uri(url), username, password) { }
-
-    public Client(Uri url, string username, string password)
+    public Client(string url, string username, string password) : this(new Uri(url), username, password)
     {
-        httpClient = new HttpClient();
-        httpClient.BaseAddress = url;
+    }
+
+    private Client(Uri url, string username, string password)
+    {
+        _httpClient = new HttpClient();
+        _httpClient.BaseAddress = url;
         var authBytes = Encoding.UTF8.GetBytes($"{username}:{password}");
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authBytes));
+        _httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authBytes));
     }
 
     /// <summary>
     /// Updates the current session id in the default headers.
     /// </summary>
     /// <param name="sessionId"></param>
-    private void updateSessionId(string sessionId)
+    private void UpdateSessionId(string sessionId)
     {
-        var headers = httpClient.DefaultRequestHeaders;
+        var headers = _httpClient.DefaultRequestHeaders;
         headers.Remove("x-transmission-session-id");
         headers.Add("x-transmission-session-id", sessionId);
     }
@@ -37,15 +39,15 @@ public class Client
     /// <param name="newSessionId">Will be set by this function if the server returned a new session id via headers.</param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    private async Task<HttpResponseMessage> sendRequestAsync(JsonContent content, string? newSessionId = null)
+    private async Task<HttpResponseMessage> SendRequestAsync(HttpContent content, string? newSessionId = null)
     {
-        if (!String.IsNullOrWhiteSpace(newSessionId))
-            updateSessionId(newSessionId);
+        if (!string.IsNullOrWhiteSpace(newSessionId))
+            UpdateSessionId(newSessionId);
 
         var httpRequest = new HttpRequestMessage();
         httpRequest.Method = HttpMethod.Post;
         httpRequest.Content = content;
-        var response = await httpClient.SendAsync(httpRequest);
+        var response = await _httpClient.SendAsync(httpRequest);
 
         if (response.StatusCode == System.Net.HttpStatusCode.OK)
             return response;
@@ -56,12 +58,12 @@ public class Client
         if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
         {
             // break recursion if a newSessionId was provided.
-            if (!String.IsNullOrWhiteSpace(newSessionId))
+            if (!string.IsNullOrWhiteSpace(newSessionId))
                 throw new InvalidOperationException("Session Id could not be updated twice.");
 
             var session = response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
-            if (!String.IsNullOrWhiteSpace(session))
-                return await sendRequestAsync(content, session);
+            if (!string.IsNullOrWhiteSpace(session))
+                return await SendRequestAsync(content, session);
             else
                 throw new InvalidOperationException("New Session Id is missing in response header.");
         }
@@ -69,15 +71,12 @@ public class Client
         throw new InvalidOperationException($"Server returned with {response.StatusCode}");
     }
 
-    public TorrentGetResponse TorrentGet(TorrentGetRequestArguments arguments)
-    {
-        return TorrentGetAsync(arguments).Result;
-    }
-
     public async Task<TorrentGetResponse> TorrentGetAsync(TorrentGetRequestArguments arguments)
     {
-        var payload = new Request("torrent-get");
-        payload.arguments = arguments;
+        Request payload = new("torrent-get")
+        {
+            Arguments = arguments
+        };
         // payload.arguments = new()
         // {
         //     fields = new()
@@ -113,27 +112,24 @@ public class Client
 
         var jsonContent = JsonContent.Create(payload, options: options);
 
-        var response = await sendRequestAsync(jsonContent);
+        var response = await SendRequestAsync(jsonContent);
 
         var jsonStringResponse = await response.Content.ReadAsStringAsync();
-        var unknownResponse = JsonSerializer.Deserialize<TorrentGetResponse>(jsonStringResponse, new JsonSerializerOptions()
-        {
-            PropertyNameCaseInsensitive = true
-        });
+        var unknownResponse = JsonSerializer.Deserialize<TorrentGetResponse>(jsonStringResponse,
+            new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            });
         return unknownResponse;
     }
 
-    
-
-    public TorrentAddResponse TorrentAdd(TorrentAddRequestArguments arguments)
-    {
-        return TorrentAddAsync(arguments).Result;
-    }
 
     public async Task<TorrentAddResponse> TorrentAddAsync(TorrentAddRequestArguments arguments)
     {
-        var payload = new Request("torrent-add");
-        payload.arguments = arguments;
+        Request payload = new("torrent-add")
+        {
+            Arguments = arguments
+        };
 
         JsonSerializerOptions options = new()
         {
@@ -142,14 +138,17 @@ public class Client
 
         var jsonContent = JsonContent.Create(payload, options: options);
 
-        var response = await sendRequestAsync(jsonContent);
+        var response = await SendRequestAsync(jsonContent);
 
         var jsonStringResponse = await response.Content.ReadAsStringAsync();
-        var unknownResponse = JsonSerializer.Deserialize<TorrentAddResponse>(jsonStringResponse, new JsonSerializerOptions()
-        {
-            PropertyNameCaseInsensitive = true
-        });
+        var unknownResponse = JsonSerializer.Deserialize<TorrentAddResponse>(jsonStringResponse,
+            new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            });
 
         return unknownResponse;
     }
+
+    private readonly HttpClient _httpClient;
 }
