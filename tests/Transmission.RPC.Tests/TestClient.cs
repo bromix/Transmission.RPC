@@ -30,6 +30,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
                 TorrentGetRequestArguments.Field.IsPrivate,
                 TorrentGetRequestArguments.Field.IsStalled,
                 TorrentGetRequestArguments.Field.AddedDate,
+                TorrentGetRequestArguments.Field.ActivityDate,
                 TorrentGetRequestArguments.Field.TorrentFile
             }
         };
