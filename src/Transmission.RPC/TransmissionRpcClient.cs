@@ -6,13 +6,13 @@ using System.Text.Json.Serialization;
 
 namespace Transmission.RPC;
 
-public sealed class Client
+public sealed class TransmissionRpcClient : ITransmissionRpcClient
 {
-    public Client(string url, string username, string password) : this(new Uri(url), username, password)
+    public TransmissionRpcClient(string url, string username, string password) : this(new Uri(url), username, password)
     {
     }
 
-    private Client(Uri url, string username, string password)
+    private TransmissionRpcClient(Uri url, string username, string password)
     {
         _httpClient = new HttpClient();
         _httpClient.BaseAddress = url;

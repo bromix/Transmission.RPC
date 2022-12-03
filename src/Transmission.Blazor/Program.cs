@@ -15,12 +15,12 @@ builder.Services.AddSingleton(_ =>
     var transmissionPassword = Environment.GetEnvironmentVariable("TRANSMISSION_PASSWORD") ??
                                throw new InvalidOperationException(
                                    "TRANSMISSION_PASSWORD is missing in Environment Variables.");
-    Transmission.RPC.Client client = new(
+    Transmission.RPC.TransmissionRpcClient transmissionRpcClient = new(
         transmissionUrl,
         transmissionUserName,
         transmissionPassword
     );
-    return client;
+    return transmissionRpcClient;
 });
 
 var app = builder.Build();

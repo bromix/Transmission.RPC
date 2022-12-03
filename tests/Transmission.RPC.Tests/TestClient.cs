@@ -6,11 +6,11 @@ namespace Transmission.RPC.Tests;
 
 public sealed class TestClient : IClassFixture<EnvFile>
 {
-    private readonly Client _client;
+    private readonly TransmissionRpcClient _transmissionRpcClient;
 
     public TestClient(EnvFile envFile)
     {
-        _client = new Client
+        _transmissionRpcClient = new TransmissionRpcClient
         (
             envFile.TransmissionUrl,
             envFile.TransmissionUserName,
@@ -34,7 +34,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
                 TorrentGetRequestArguments.Field.TorrentFile
             }
         };
-        var torrents = await _client.TorrentGetAsync(arguments);
+        var torrents = await _transmissionRpcClient.TorrentGetAsync(arguments);
 
         // var torrent = torrents.First();
         // var diff = DateTime.UtcNow - torrent.ActivityDate;
@@ -50,7 +50,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
             Paused = true
         };
 
-        var result = await _client.TorrentAddAsync(arguments);
+        var result = await _transmissionRpcClient.TorrentAddAsync(arguments);
         Assert.True(true);
     }
 }
