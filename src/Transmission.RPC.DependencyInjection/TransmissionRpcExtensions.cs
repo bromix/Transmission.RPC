@@ -1,11 +1,26 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Net.Http.Headers;
+using System.Text;
+using Microsoft.Extensions.DependencyInjection;
+using Transmission.RPC;
 
 namespace Transmission.DependencyInjection;
 
 public static class TransmissionRpcExtensions
 {
-    public static IServiceCollection AddTransmissionRpcClient(this IServiceCollection services)
+    public static IServiceCollection AddTransmissionRpcClient
+    (
+        this IServiceCollection services,
+        Func<IServiceProvider, TransmissionRpcClientOptions> configure
+    )
     {
+        services.AddHttpClient<TransmissionRpcClient>((provider, client) =>
+        {
+            var options = configure(provider);
+            client.BaseAddress = options.Url;
+            var authBytes = Encoding.UTF8.GetBytes($"{options.Username}:{options.Password}");
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authBytes));
+        });
         return services;
     }
 }

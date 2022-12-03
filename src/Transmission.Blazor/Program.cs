@@ -1,11 +1,14 @@
 //Transmission.RPC.Environment.Load();
 
+using Transmission.DependencyInjection;
+using Transmission.RPC;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton(_ =>
+builder.Services.AddTransmissionRpcClient((_) =>
 {
     var transmissionUrl = Environment.GetEnvironmentVariable("TRANSMISSION_URL") ??
                           throw new InvalidOperationException("TRANSMISSION_URL is missing in Environment Variables.");
@@ -15,12 +18,8 @@ builder.Services.AddSingleton(_ =>
     var transmissionPassword = Environment.GetEnvironmentVariable("TRANSMISSION_PASSWORD") ??
                                throw new InvalidOperationException(
                                    "TRANSMISSION_PASSWORD is missing in Environment Variables.");
-    Transmission.RPC.TransmissionRpcClient transmissionRpcClient = new(
-        transmissionUrl,
-        transmissionUserName,
-        transmissionPassword
-    );
-    return transmissionRpcClient;
+
+    return new TransmissionRpcClientOptions(new Uri(transmissionUrl), transmissionUserName, transmissionPassword);
 });
 
 var app = builder.Build();

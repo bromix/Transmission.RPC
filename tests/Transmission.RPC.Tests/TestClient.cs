@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Transmission.DependencyInjection;
 using Xunit;
 
 namespace Transmission.RPC.Tests;
@@ -10,12 +13,26 @@ public sealed class TestClient : IClassFixture<EnvFile>
 
     public TestClient(EnvFile envFile)
     {
-        _transmissionRpcClient = new TransmissionRpcClient
-        (
-            envFile.TransmissionUrl,
-            envFile.TransmissionUserName,
-            envFile.TransmissionPassword
-        );
+        var serviceProvider = new ServiceCollection()
+            .AddTransmissionRpcClient(provider =>
+            {
+                TransmissionRpcClientOptions options = new
+                (
+                    Url: new Uri(envFile.TransmissionUrl),
+                    Username: envFile.TransmissionUserName,
+                    Password: envFile.TransmissionPassword
+                );
+                return options;
+            })
+            .BuildServiceProvider();
+
+        _transmissionRpcClient = serviceProvider.GetRequiredService<TransmissionRpcClient>();
+        // _transmissionRpcClient = new TransmissionRpcClient
+        // (
+        //     envFile.TransmissionUrl,
+        //     envFile.TransmissionUserName,
+        //     envFile.TransmissionPassword
+        // );
     }
 
     [Fact]

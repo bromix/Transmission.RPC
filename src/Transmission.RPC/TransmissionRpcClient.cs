@@ -6,19 +6,21 @@ using System.Text.Json.Serialization;
 
 namespace Transmission.RPC;
 
-public sealed class TransmissionRpcClient : ITransmissionRpcClient
+public sealed class TransmissionRpcClient
 {
-    public TransmissionRpcClient(string url, string username, string password) : this(new Uri(url), username, password)
+    public TransmissionRpcClient(HttpClient httpClient)
     {
+        _httpClient = httpClient;
     }
 
-    private TransmissionRpcClient(Uri url, string username, string password)
+    public static TransmissionRpcClient Create(TransmissionRpcClientOptions options)
     {
-        _httpClient = new HttpClient();
-        _httpClient.BaseAddress = url;
-        var authBytes = Encoding.UTF8.GetBytes($"{username}:{password}");
-        _httpClient.DefaultRequestHeaders.Authorization =
+        HttpClient httpClient = new();
+        httpClient.BaseAddress = options.Url;
+        var authBytes = Encoding.UTF8.GetBytes($"{options.Username}:{options.Password}");
+        httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authBytes));
+        return new TransmissionRpcClient(httpClient);
     }
 
     /// <summary>
@@ -49,8 +51,7 @@ public sealed class TransmissionRpcClient : ITransmissionRpcClient
         httpRequest.Content = content;
         var response = await _httpClient.SendAsync(httpRequest);
 
-        if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            return response;
+        if (response.StatusCode == System.Net.HttpStatusCode.OK) return response;
 
         if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             throw new InvalidOperationException("Server requires Authorization.");
@@ -64,8 +65,8 @@ public sealed class TransmissionRpcClient : ITransmissionRpcClient
             var session = response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
             if (!string.IsNullOrWhiteSpace(session))
                 return await SendRequestAsync(content, session);
-            else
-                throw new InvalidOperationException("New Session Id is missing in response header.");
+
+            throw new InvalidOperationException("New Session Id is missing in response header.");
         }
 
         throw new InvalidOperationException($"Server returned with {response.StatusCode}");
