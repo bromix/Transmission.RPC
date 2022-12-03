@@ -133,4 +133,6 @@ public sealed class TorrentGetRequestArguments
     [JsonPropertyName("fields")]
     [JsonConverter(typeof(FieldTypeJsonConverter))]
     public Field[] Fields { get; set; } = Array.Empty<Field>();
+
+    [JsonPropertyName("ids")] public int[]? Ids { get; set; }
 }

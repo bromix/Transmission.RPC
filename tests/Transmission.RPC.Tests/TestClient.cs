@@ -50,6 +50,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
                 TorrentGetRequestArguments.Field.ActivityDate,
                 TorrentGetRequestArguments.Field.TorrentFile
             }
+            //Ids = new []{80}
         };
         var torrents = await _transmissionRpcClient.TorrentGetAsync(arguments);
 
