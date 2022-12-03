@@ -74,40 +74,17 @@ public sealed class TransmissionRpcClient
 
     public async Task<TorrentGetResponse> TorrentGetAsync(TorrentGetRequestArguments arguments)
     {
-        Request request = new("torrent-get")
-        {
-            Arguments = arguments
-        };
-
+        Request request = new("torrent-get") { Arguments = arguments };
         var response = await SendRequestAsync(request.ToJsonContent());
-
-        var jsonStringResponse = await response.Content.ReadAsStringAsync();
-        var unknownResponse = JsonSerializer.Deserialize<TorrentGetResponse>(jsonStringResponse,
-            new JsonSerializerOptions()
-            {
-                PropertyNameCaseInsensitive = true
-            });
-        return unknownResponse;
+        return await response.ToResponseAsync<TorrentGetResponse>();
     }
 
 
     public async Task<TorrentAddResponse> TorrentAddAsync(TorrentAddRequestArguments arguments)
     {
-        Request request = new("torrent-add")
-        {
-            Arguments = arguments
-        };
-
+        Request request = new("torrent-add") { Arguments = arguments };
         var response = await SendRequestAsync(request.ToJsonContent());
-
-        var jsonStringResponse = await response.Content.ReadAsStringAsync();
-        var unknownResponse = JsonSerializer.Deserialize<TorrentAddResponse>(jsonStringResponse,
-            new JsonSerializerOptions()
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-        return unknownResponse;
+        return await response.ToResponseAsync<TorrentAddResponse>();
     }
 
     private readonly HttpClient _httpClient;
