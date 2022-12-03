@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Transmission.RPC;
 
-public class FieldTypeJsonConverter : JsonConverter<List<TorrentGetRequestArguments.Field>>
+public class FieldTypeJsonConverter : JsonConverter<TorrentGetRequestArguments.Field[]>
 {
     private static string ToCamelCase(string input)
     {
@@ -13,16 +13,16 @@ public class FieldTypeJsonConverter : JsonConverter<List<TorrentGetRequestArgume
         return char.ToLower(input[0]) + input[1..];
     }
 
-    public override List<TorrentGetRequestArguments.Field>? Read(ref Utf8JsonReader reader, Type typeToConvert,
+    public override TorrentGetRequestArguments.Field[]? Read(ref Utf8JsonReader reader, Type typeToConvert,
         JsonSerializerOptions options)
     {
         throw new NotImplementedException();
     }
 
-    public override void Write(Utf8JsonWriter writer, List<TorrentGetRequestArguments.Field> value,
+    public override void Write(Utf8JsonWriter writer, TorrentGetRequestArguments.Field[] value,
         JsonSerializerOptions options)
     {
-        if (value.Count == 0) return;
+        if (value.Length == 0) return;
 
         writer.WriteStartArray();
         foreach (var fieldType in value)
