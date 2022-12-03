@@ -40,7 +40,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
     {
         TorrentGetRequestArguments arguments = new()
         {
-            Fields = new List<TorrentGetRequestArguments.Field>
+            Fields = new[]
             {
                 TorrentGetRequestArguments.Field.Id,
                 TorrentGetRequestArguments.Field.Name,

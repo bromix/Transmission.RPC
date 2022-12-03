@@ -74,46 +74,12 @@ public sealed class TransmissionRpcClient
 
     public async Task<TorrentGetResponse> TorrentGetAsync(TorrentGetRequestArguments arguments)
     {
-        Request payload = new("torrent-get")
+        Request request = new("torrent-get")
         {
             Arguments = arguments
         };
-        // payload.arguments = new()
-        // {
-        //     fields = new()
-        //     {
-        //         "id",
-        //         "percentDone",
-        //         "name",
-        //         "isFinished",
-        //         "isPrivate",
-        //         "rateDownload",
-        //         "file-count",
-        //         "totalSize",
-        //         "hashString",
-        //         "activityDate",
-        //         "startDate",
-        //         "editDate",
-        //         "doneDate",
-        //         "dateCreated",
-        //         "addedDate",
-        //         "sizeWhenDone",
-        //         "downloadDir",
-        //         "dht-enabled",
-        //         "pex-enabled",
-        //         "eta",
-        //         "comment"
-        //     }
-        // };
 
-        JsonSerializerOptions options = new()
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        };
-
-        var jsonContent = JsonContent.Create(payload, options: options);
-
-        var response = await SendRequestAsync(jsonContent);
+        var response = await SendRequestAsync(request.ToJsonContent());
 
         var jsonStringResponse = await response.Content.ReadAsStringAsync();
         var unknownResponse = JsonSerializer.Deserialize<TorrentGetResponse>(jsonStringResponse,
@@ -127,19 +93,12 @@ public sealed class TransmissionRpcClient
 
     public async Task<TorrentAddResponse> TorrentAddAsync(TorrentAddRequestArguments arguments)
     {
-        Request payload = new("torrent-add")
+        Request request = new("torrent-add")
         {
             Arguments = arguments
         };
 
-        JsonSerializerOptions options = new()
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        };
-
-        var jsonContent = JsonContent.Create(payload, options: options);
-
-        var response = await SendRequestAsync(jsonContent);
+        var response = await SendRequestAsync(request.ToJsonContent());
 
         var jsonStringResponse = await response.Content.ReadAsStringAsync();
         var unknownResponse = JsonSerializer.Deserialize<TorrentAddResponse>(jsonStringResponse,

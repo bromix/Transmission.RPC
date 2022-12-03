@@ -16,7 +16,7 @@ public partial class Torrents: ComponentBase
 
         RPC.TorrentGetRequestArguments arguments = new()
         {
-            Fields = new()
+            Fields = new[]
             {
                 RPC.TorrentGetRequestArguments.Field.Id,
                 RPC.TorrentGetRequestArguments.Field.Name,
