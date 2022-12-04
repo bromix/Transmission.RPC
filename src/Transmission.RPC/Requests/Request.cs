@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Transmission.RPC.Requests;
 
-public sealed record Request
+public sealed record Request<TArguments>
 {
     private static int _tagCounter;
 
@@ -16,5 +16,5 @@ public sealed record Request
 
     [JsonPropertyName("tag")] public int? Tag { get; }
 
-    [JsonPropertyName("arguments")] public object? Arguments { get; set; }
+    [JsonPropertyName("arguments")] public TArguments? Arguments { get; set; }
 }

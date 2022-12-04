@@ -76,7 +76,7 @@ public sealed class TransmissionRpcClient
 
     public async Task<Response<TorrentGetArguments>> TorrentGetAsync(Requests.TorrentGetArguments arguments)
     {
-        Request request = new("torrent-get") { Arguments = arguments };
+        Request<Requests.TorrentGetArguments> request = new("torrent-get") { Arguments = arguments };
         var response = await SendRequestAsync(request.ToJsonContent());
         return await response.ToResponseAsync<Response<TorrentGetArguments>>();
     }
@@ -84,7 +84,7 @@ public sealed class TransmissionRpcClient
 
     public async Task<Response<TorrentAddArguments>> TorrentAddAsync(Requests.TorrentAddArguments arguments)
     {
-        Request request = new("torrent-add") { Arguments = arguments };
+        Request<Requests.TorrentAddArguments> request = new("torrent-add") { Arguments = arguments };
         var response = await SendRequestAsync(request.ToJsonContent());
         return await response.ToResponseAsync<Response<TorrentAddArguments>>();
     }

@@ -12,5 +12,6 @@ internal static class RequestExtensions
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
     };
 
-    public static JsonContent ToJsonContent(this Request request) => JsonContent.Create(request, options: Options);
+    public static JsonContent ToJsonContent<TArguments>(this Request<TArguments> request) =>
+        JsonContent.Create(request, options: Options);
 }
