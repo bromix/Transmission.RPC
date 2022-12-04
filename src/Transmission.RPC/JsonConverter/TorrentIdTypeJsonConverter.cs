@@ -4,14 +4,14 @@ using Transmission.RPC.Requests;
 
 namespace Transmission.RPC.JsonConverter;
 
-internal sealed class TorrentIdTypeJsonConverter : JsonConverter<RequestTorrentId[]>
+internal sealed class TorrentIdTypeJsonConverter : JsonConverter<TorrentId[]>
 {
-    public override RequestTorrentId[]? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override TorrentId[]? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         throw new NotImplementedException();
     }
 
-    public override void Write(Utf8JsonWriter writer, RequestTorrentId[] value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, TorrentId[] value, JsonSerializerOptions options)
     {
         if (value.Length == 0) return;
 

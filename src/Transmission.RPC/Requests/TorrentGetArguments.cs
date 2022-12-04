@@ -6,7 +6,7 @@ namespace Transmission.RPC.Requests;
 /// <summary>
 /// Method: "torrent-get"
 /// </summary>
-public sealed class TorrentGetRequestArguments
+public sealed class TorrentGetArguments
 {
     public enum Field
     {
@@ -90,5 +90,5 @@ public sealed class TorrentGetRequestArguments
 
     [JsonPropertyName("ids")]
     [JsonConverter(typeof(TorrentIdTypeJsonConverter))]
-    public RequestTorrentId[]? Ids { get; set; }
+    public TorrentId[]? Ids { get; set; }
 }

@@ -12,9 +12,9 @@ public sealed record Request
         Tag = ++_tagCounter;
     }
 
-    [JsonPropertyName("method")] public string Method { get; init; }
+    [JsonPropertyName("method")] public string Method { get; }
 
-    [JsonPropertyName("tag")] public int Tag { get; init; }
+    [JsonPropertyName("tag")] public int? Tag { get; }
 
     [JsonPropertyName("arguments")] public object? Arguments { get; set; }
 }

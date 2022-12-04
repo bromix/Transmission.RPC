@@ -1,6 +1,6 @@
 ﻿namespace Transmission.RPC.Responses;
 
-public sealed record TorrentGetResponseArguments
+public sealed record TorrentGetArguments
 {
     public Torrent[]? Torrents { get; init; } = null;
 }
