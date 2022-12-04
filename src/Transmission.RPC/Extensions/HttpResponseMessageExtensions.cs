@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Transmission.RPC;
+namespace Transmission.RPC.Extensions;
 
 internal static class HttpResponseMessageExtensions
 {

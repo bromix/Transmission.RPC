@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Transmission.RPC;
+namespace Transmission.RPC.JsonConverter;
 
 internal class FieldTypeJsonConverter : JsonConverter<TorrentGetRequestArguments.Field[]>
 {

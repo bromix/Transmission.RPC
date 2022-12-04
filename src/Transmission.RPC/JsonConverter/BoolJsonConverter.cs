@@ -1,14 +1,13 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Transmission.RPC;
+namespace Transmission.RPC.JsonConverter;
 
 public class BoolJsonConverter : JsonConverter<bool>
 {
     public override bool Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        if (reader.TokenType == JsonTokenType.Number)
-            return reader.GetInt16() > 0;
+        if (reader.TokenType == JsonTokenType.Number) return reader.GetInt16() > 0;
 
         if (reader.TokenType == JsonTokenType.String)
         {
