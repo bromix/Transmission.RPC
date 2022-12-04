@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Transmission.RPC;
 
-public class FieldTypeJsonConverter : JsonConverter<TorrentGetRequestArguments.Field[]>
+internal class FieldTypeJsonConverter : JsonConverter<TorrentGetRequestArguments.Field[]>
 {
     private static string ToCamelCase(string input)
     {
