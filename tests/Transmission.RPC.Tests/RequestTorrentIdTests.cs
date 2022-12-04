@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Transmission.RPC.Requests;
 using Xunit;
 
 namespace Transmission.RPC.Tests;

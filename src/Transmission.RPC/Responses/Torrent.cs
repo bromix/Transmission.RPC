@@ -1,15 +1,15 @@
 using System.Text.Json.Serialization;
 using Transmission.RPC.JsonConverter;
 
-namespace Transmission.RPC;
+namespace Transmission.RPC.Responses;
 
 public sealed record Torrent
 {
     [JsonConverter(typeof(DateTimeJsonConverter))]
-    public DateTime? ActivityDate { get; init; }
+    public DateTime? ActivityDate { get; init; } = null;
 
     [JsonConverter(typeof(DateTimeJsonConverter))]
-    public DateTime? AddedDate { get; init; }
+    public DateTime? AddedDate { get; init; } = null;
 
     public int? BandwidthPriority { get; init; }
     public string? Comment { get; init; }
@@ -41,14 +41,14 @@ public sealed record Torrent
 
     // files                       | array(see below)           | n/a
     // fileStats                   | array(see below)           | n/a
-    public string? HashString { get; init; }
+    public string? HashString { get; init; } = null;
     public int? HaveUnchecked { get; init; }
     public int? HaveValid { get; init; }
     public bool? HonorsSessionLimits { get; init; }
     public int? Id { get; init; }
     public bool? IsFinished { get; init; }
     public bool? IsPrivate { get; init; }
-    public bool? IsStalled { get; init; }
+    public bool? IsStalled { get; init; } = null;
 
     //labels                      | array(see below)           | tr_torrent
 
@@ -57,7 +57,7 @@ public sealed record Torrent
     public int? ManualAnnounceTime { get; init; }
     public int? MaxConnectedPeers { get; init; }
     public double? MetadataPercentComplete { get; init; }
-    public string? Name { get; init; }
+    public string? Name { get; init; } = null;
 
     [JsonPropertyName("peer-limit")] public int? PeerLimit { get; init; }
 

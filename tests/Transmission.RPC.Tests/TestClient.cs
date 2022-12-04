@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Transmission.DependencyInjection;
+using Transmission.RPC.Requests;
 using Xunit;
 
 namespace Transmission.RPC.Tests;
