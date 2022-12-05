@@ -46,6 +46,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
                 TorrentGetArguments.Field.HashString,
                 TorrentGetArguments.Field.Name,
                 TorrentGetArguments.Field.Files,
+                TorrentGetArguments.Field.Status,
                 TorrentGetArguments.Field.FileStats,
                 TorrentGetArguments.Field.FileCount,
                 TorrentGetArguments.Field.IsPrivate,

@@ -91,7 +91,8 @@ public sealed record Torrent
     [JsonConverter(typeof(DateTimeJsonConverter))]
     public DateTime? StartDate { get; init; }
 
-    //status                      | number(see below)          | tr_stat
+    public Status? Status { get; init; }
+
     //trackers                    | array(see below)           | n/a
     //trackerStats                | array(see below)           | n/a
     public int? TotalSize { get; init; }
