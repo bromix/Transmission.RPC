@@ -45,13 +45,16 @@ public sealed class TestClient : IClassFixture<EnvFile>
                 TorrentGetArguments.Field.Id,
                 TorrentGetArguments.Field.HashString,
                 TorrentGetArguments.Field.Name,
+                TorrentGetArguments.Field.Files,
+                TorrentGetArguments.Field.FileStats,
+                TorrentGetArguments.Field.FileCount,
                 TorrentGetArguments.Field.IsPrivate,
                 TorrentGetArguments.Field.IsStalled,
                 TorrentGetArguments.Field.AddedDate,
                 TorrentGetArguments.Field.ActivityDate,
                 TorrentGetArguments.Field.TorrentFile
-            },
-            Ids = new TorrentId[] { 1, "189dbeabefe71534466315bf447fd0e341ffed50" }
+            }
+            //Ids = new TorrentId[] { 1, "189dbeabefe71534466315bf447fd0e341ffed50" }
         };
         var torrents = await _transmissionRpcClient.TorrentGetAsync(arguments);
 

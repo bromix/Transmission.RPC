@@ -38,9 +38,8 @@ public sealed record Torrent
     public int? EtaIdle { get; init; }
 
     [JsonPropertyName("file-count")] public int? FileCount { get; init; }
-
-    // files                       | array(see below)           | n/a
-    // fileStats                   | array(see below)           | n/a
+    [JsonPropertyName("files")] public File[]? Files { get; init; }
+    [JsonPropertyName("fileStats")] public FileStat[]? FileStats { get; init; }
     public string? HashString { get; init; } = null;
     public int? HaveUnchecked { get; init; }
     public int? HaveValid { get; init; }
