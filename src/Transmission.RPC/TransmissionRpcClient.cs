@@ -1,10 +1,8 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
-using Transmission.RPC.Extensions;
-using Transmission.RPC.Requests;
-using Transmission.RPC.Responses;
-using TorrentAddArguments = Transmission.RPC.Responses.TorrentAddArguments;
-using TorrentGetArguments = Transmission.RPC.Responses.TorrentGetArguments;
+using Transmission.RPC.Messages;
+using Transmission.RPC.Messages.TorrentAdd;
+using Transmission.RPC.Messages.TorrentGet;
 
 namespace Transmission.RPC;
 
@@ -74,19 +72,19 @@ public sealed class TransmissionRpcClient
         throw new InvalidOperationException($"Server returned with {response.StatusCode}");
     }
 
-    public async Task<Response<TorrentGetArguments>> TorrentGetAsync(Requests.TorrentGetArguments arguments)
+    public async Task<Response<TorrentGetResponseArguments>> TorrentGetAsync(TorrentGetRequestArguments arguments)
     {
-        Request<Requests.TorrentGetArguments> request = new("torrent-get") { Arguments = arguments };
+        var request = RequestFactory.Create(arguments);
         var response = await SendRequestAsync(request.ToJsonContent());
-        return await response.ToResponseAsync<Response<TorrentGetArguments>>();
+        return await response.ToResponseAsync<Response<TorrentGetResponseArguments>>();
     }
 
 
-    public async Task<Response<TorrentAddArguments>> TorrentAddAsync(Requests.TorrentAddArguments arguments)
+    public async Task<Response<TorrentAddResponseArguments>> TorrentAddAsync(TorrentAddRequestArguments arguments)
     {
-        Request<Requests.TorrentAddArguments> request = new("torrent-add") { Arguments = arguments };
+        var request = RequestFactory.Create(arguments);
         var response = await SendRequestAsync(request.ToJsonContent());
-        return await response.ToResponseAsync<Response<TorrentAddArguments>>();
+        return await response.ToResponseAsync<Response<TorrentAddResponseArguments>>();
     }
 
     private readonly HttpClient _httpClient;

@@ -1,4 +1,4 @@
-namespace Transmission.RPC.Responses;
+namespace Transmission.RPC.Messages;
 
 public sealed record Response<TArguments>
 {

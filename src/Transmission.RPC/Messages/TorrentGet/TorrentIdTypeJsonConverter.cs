@@ -1,8 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Transmission.RPC.Requests;
 
-namespace Transmission.RPC.JsonConverter;
+namespace Transmission.RPC.Messages.TorrentGet;
 
 internal sealed class TorrentIdTypeJsonConverter : JsonConverter<TorrentId[]>
 {

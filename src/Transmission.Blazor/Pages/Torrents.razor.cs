@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Components;
-using Transmission.RPC.Requests;
-using Transmission.RPC.Responses;
-using TorrentGetArguments = Transmission.RPC.Requests.TorrentGetArguments;
+using Transmission.RPC.Messages.TorrentGet;
 
 namespace Transmission.Blazor.Pages;
 public partial class Torrents: ComponentBase
@@ -17,25 +15,25 @@ public partial class Torrents: ComponentBase
 
         throw new Exception("asdsadasd");
 
-        TorrentGetArguments arguments = new()
+        TorrentGetRequestArguments requestArguments = new()
         {
             Fields = new[]
             {
-                TorrentGetArguments.Field.Id,
-                TorrentGetArguments.Field.Name,
-                TorrentGetArguments.Field.IsPrivate,
-                TorrentGetArguments.Field.IsStalled,
-                TorrentGetArguments.Field.AddedDate,
-                TorrentGetArguments.Field.HashString
+                TorrentGetRequestArguments.Field.Id,
+                TorrentGetRequestArguments.Field.Name,
+                TorrentGetRequestArguments.Field.IsPrivate,
+                TorrentGetRequestArguments.Field.IsStalled,
+                TorrentGetRequestArguments.Field.AddedDate,
+                TorrentGetRequestArguments.Field.HashString
             }
         };
 
-        TorrentsList = (await TorrentTransmissionRpcClient.TorrentGetAsync(arguments))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
+        TorrentsList = (await TorrentTransmissionRpcClient.TorrentGetAsync(requestArguments))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
 
         System.Timers.Timer t = new System.Timers.Timer();
         t.Elapsed += async (s, e) =>
         {
-            TorrentsList = (await TorrentTransmissionRpcClient.TorrentGetAsync(arguments))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
+            TorrentsList = (await TorrentTransmissionRpcClient.TorrentGetAsync(requestArguments))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
             await InvokeAsync(StateHasChanged);
         };
         t.Interval = 2000;

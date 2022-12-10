@@ -1,12 +1,11 @@
 ﻿using System.Text.Json.Serialization;
-using Transmission.RPC.JsonConverter;
 
-namespace Transmission.RPC.Requests;
+namespace Transmission.RPC.Messages.TorrentGet;
 
 /// <summary>
 /// Method: "torrent-get"
 /// </summary>
-public sealed class TorrentGetArguments
+public sealed class TorrentGetRequestArguments
 {
     public enum Field
     {

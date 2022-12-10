@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Transmission.RPC.Responses;
+namespace Transmission.RPC.Messages.TorrentAdd;
 
-public sealed record TorrentAddArguments
+public sealed record TorrentAddResponseArguments
 {
     [JsonPropertyName("torrent-added")] public TorrentAddInfo? TorrentAdded { get; init; } = null;
 

@@ -1,9 +1,8 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Transmission.RPC.Requests;
 
-namespace Transmission.RPC.Extensions;
+namespace Transmission.RPC.Messages;
 
 internal static class RequestExtensions
 {

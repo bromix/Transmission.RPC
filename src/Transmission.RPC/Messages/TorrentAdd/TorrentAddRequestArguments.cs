@@ -1,11 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Transmission.RPC.Requests;
+namespace Transmission.RPC.Messages.TorrentAdd;
 
 /// <summary>
 /// Method: "torrent-add"
 /// </summary>
-public sealed record TorrentAddArguments
+public sealed record TorrentAddRequestArguments
 {
     /// <summary>
     /// Filename or URL of the .torrent file.

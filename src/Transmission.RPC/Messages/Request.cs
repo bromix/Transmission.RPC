@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Transmission.RPC.Requests;
+namespace Transmission.RPC.Messages;
 
 public sealed record Request<TArguments>
 {

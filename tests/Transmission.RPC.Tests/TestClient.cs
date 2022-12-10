@@ -2,7 +2,8 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Transmission.DependencyInjection;
-using Transmission.RPC.Requests;
+using Transmission.RPC.Messages.TorrentAdd;
+using Transmission.RPC.Messages.TorrentGet;
 using Xunit;
 
 namespace Transmission.RPC.Tests;
@@ -38,26 +39,26 @@ public sealed class TestClient : IClassFixture<EnvFile>
     [Fact]
     public async Task ClientGet()
     {
-        TorrentGetArguments arguments = new()
+        TorrentGetRequestArguments requestArguments = new()
         {
             Fields = new[]
             {
-                TorrentGetArguments.Field.Id,
-                TorrentGetArguments.Field.HashString,
-                TorrentGetArguments.Field.Name,
-                TorrentGetArguments.Field.Files,
-                TorrentGetArguments.Field.Status,
-                TorrentGetArguments.Field.FileStats,
-                TorrentGetArguments.Field.FileCount,
-                TorrentGetArguments.Field.IsPrivate,
-                TorrentGetArguments.Field.IsStalled,
-                TorrentGetArguments.Field.AddedDate,
-                TorrentGetArguments.Field.ActivityDate,
-                TorrentGetArguments.Field.TorrentFile
+                TorrentGetRequestArguments.Field.Id,
+                TorrentGetRequestArguments.Field.HashString,
+                TorrentGetRequestArguments.Field.Name,
+                TorrentGetRequestArguments.Field.Files,
+                TorrentGetRequestArguments.Field.Status,
+                TorrentGetRequestArguments.Field.FileStats,
+                TorrentGetRequestArguments.Field.FileCount,
+                TorrentGetRequestArguments.Field.IsPrivate,
+                TorrentGetRequestArguments.Field.IsStalled,
+                TorrentGetRequestArguments.Field.AddedDate,
+                TorrentGetRequestArguments.Field.ActivityDate,
+                TorrentGetRequestArguments.Field.TorrentFile
             }
             //Ids = new TorrentId[] { 1, "189dbeabefe71534466315bf447fd0e341ffed50" }
         };
-        var torrents = await _transmissionRpcClient.TorrentGetAsync(arguments);
+        var torrents = await _transmissionRpcClient.TorrentGetAsync(requestArguments);
 
         // var torrent = torrents.First();
         // var diff = DateTime.UtcNow - torrent.ActivityDate;
@@ -67,13 +68,13 @@ public sealed class TestClient : IClassFixture<EnvFile>
     [Fact]
     public async Task ClientAdd()
     {
-        TorrentAddArguments arguments = new()
+        TorrentAddRequestArguments requestArguments = new()
         {
             Filename = "https://releases.ubuntu.com/20.04/ubuntu-20.04.3-desktop-amd64.iso.torrent",
             Paused = true
         };
 
-        var result = await _transmissionRpcClient.TorrentAddAsync(arguments);
+        var result = await _transmissionRpcClient.TorrentAddAsync(requestArguments);
         Assert.True(true);
     }
 }

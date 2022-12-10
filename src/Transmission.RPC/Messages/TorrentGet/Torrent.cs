@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
-using Transmission.RPC.JsonConverter;
 
-namespace Transmission.RPC.Responses;
+namespace Transmission.RPC.Messages.TorrentGet;
 
 public sealed record Torrent
 {
