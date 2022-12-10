@@ -5,7 +5,7 @@ namespace Transmission.RPC.Messages.TorrentStart;
 /// <summary>
 /// Method: "torrent-start"
 /// </summary>
-public sealed class TorrentStartRequestArguments
+public sealed record TorrentStartRequestArguments
 {
     [JsonPropertyName("ids")]
     [JsonConverter(typeof(TorrentIdTypeJsonConverter))]

@@ -1,11 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Transmission.RPC.Messages.TorrentStart;
+namespace Transmission.RPC.Messages.TorrentStop;
 
 /// <summary>
 /// Method: "torrent-start"
 /// </summary>
-public sealed class TorrentStopRequestArguments
+public sealed record TorrentStopRequestArguments
 {
     [JsonPropertyName("ids")]
     [JsonConverter(typeof(TorrentIdTypeJsonConverter))]

@@ -5,7 +5,7 @@ namespace Transmission.RPC.Messages.TorrentGet;
 /// <summary>
 /// Method: "torrent-get"
 /// </summary>
-public sealed class TorrentGetRequestArguments
+public sealed record TorrentGetRequestArguments
 {
     public enum Field
     {

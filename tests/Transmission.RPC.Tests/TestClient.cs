@@ -6,6 +6,7 @@ using Transmission.RPC.Messages;
 using Transmission.RPC.Messages.TorrentAdd;
 using Transmission.RPC.Messages.TorrentGet;
 using Transmission.RPC.Messages.TorrentStart;
+using Transmission.RPC.Messages.TorrentStop;
 using Xunit;
 
 namespace Transmission.RPC.Tests;

@@ -1,6 +1,7 @@
 ﻿using Transmission.RPC.Messages.TorrentAdd;
 using Transmission.RPC.Messages.TorrentGet;
 using Transmission.RPC.Messages.TorrentStart;
+using Transmission.RPC.Messages.TorrentStop;
 
 namespace Transmission.RPC.Messages;
 
