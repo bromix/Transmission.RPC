@@ -2,8 +2,10 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Transmission.DependencyInjection;
+using Transmission.RPC.Messages;
 using Transmission.RPC.Messages.TorrentAdd;
 using Transmission.RPC.Messages.TorrentGet;
+using Transmission.RPC.Messages.TorrentStart;
 using Xunit;
 
 namespace Transmission.RPC.Tests;
@@ -75,6 +77,26 @@ public sealed class TestClient : IClassFixture<EnvFile>
         };
 
         var result = await _transmissionRpcClient.TorrentAddAsync(requestArguments);
+        Assert.True(true);
+    }
+
+    [Fact]
+    public async Task TorrentStart()
+    {
+        TorrentStartRequestArguments arguments = new()
+            { Ids = new TorrentId[] { "a305900fb229d3fa3b1b0c10ac0584b2748099fe" } };
+
+        var result = await _transmissionRpcClient.TorrentStartAsync(arguments);
+        Assert.True(true);
+    }
+    
+    [Fact]
+    public async Task TorrentStop()
+    {
+        TorrentStopRequestArguments arguments = new()
+            { Ids = new TorrentId[] { "a305900fb229d3fa3b1b0c10ac0584b2748099fe" } };
+
+        var result = await _transmissionRpcClient.TorrentStopAsync(arguments);
         Assert.True(true);
     }
 }

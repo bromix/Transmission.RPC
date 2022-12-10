@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Transmission.RPC.Messages.TorrentGet;
+using Transmission.RPC.Messages;
 using Xunit;
 
 namespace Transmission.RPC.Tests.Requests;

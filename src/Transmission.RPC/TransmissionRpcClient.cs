@@ -3,6 +3,7 @@ using System.Text;
 using Transmission.RPC.Messages;
 using Transmission.RPC.Messages.TorrentAdd;
 using Transmission.RPC.Messages.TorrentGet;
+using Transmission.RPC.Messages.TorrentStart;
 
 namespace Transmission.RPC;
 
@@ -72,18 +73,32 @@ public sealed class TransmissionRpcClient
         throw new InvalidOperationException($"Server returned with {response.StatusCode}");
     }
 
-    public async Task<Response<TorrentGetResponseArguments>> TorrentGetAsync(TorrentGetRequestArguments arguments)
+    private async Task<Response<TResponse>> ExecuteAsync<TRequest, TResponse>(TRequest arguments)
     {
         var request = RequestFactory.Create(arguments);
         var response = await SendRequestAsync(request.ToJsonContent());
+        return await response.ToResponseAsync<Response<TResponse>>();
+    }
+
+    public async Task<Response<TorrentStartResponseArguments>> TorrentStartAsync(TorrentStartRequestArguments arguments)
+    {
+        return await ExecuteAsync<TorrentStartRequestArguments, TorrentStartResponseArguments>(arguments);
+    }
+
+    public async Task<Response<TorrentStopResponseArguments>> TorrentStopAsync(TorrentStopRequestArguments arguments)
+    {
+        return await ExecuteAsync<TorrentStopRequestArguments, TorrentStopResponseArguments>(arguments);
+    }
+
+    public async Task<Response<TorrentGetResponseArguments>> TorrentGetAsync(TorrentGetRequestArguments arguments)
+    {
+        var response = await SendRequestAsync(RequestFactory.Create(arguments).ToJsonContent());
         return await response.ToResponseAsync<Response<TorrentGetResponseArguments>>();
     }
 
-
     public async Task<Response<TorrentAddResponseArguments>> TorrentAddAsync(TorrentAddRequestArguments arguments)
     {
-        var request = RequestFactory.Create(arguments);
-        var response = await SendRequestAsync(request.ToJsonContent());
+        var response = await SendRequestAsync(RequestFactory.Create(arguments).ToJsonContent());
         return await response.ToResponseAsync<Response<TorrentAddResponseArguments>>();
     }
 

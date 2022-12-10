@@ -1,4 +1,4 @@
-﻿namespace Transmission.RPC.Messages.TorrentGet;
+﻿namespace Transmission.RPC.Messages;
 
 /// <summary>
 /// Record to allow usage of int and string torrent ids at the same time.
