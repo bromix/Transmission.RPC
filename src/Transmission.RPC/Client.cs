@@ -85,83 +85,56 @@ public sealed class Client
         throw new InvalidOperationException($"Server returned with {response.StatusCode}");
     }
 
-    private async Task<Response<TResponse>> ExecuteAsync<TRequest, TResponse>(TRequest arguments,
+    private async Task<TResponse> ExecuteAsync<TRequest, TResponse>(TRequest arguments,
         CancellationToken cancellationToken = default)
     {
         var request = RequestFactory.Create(arguments);
-        var response = await SendRequestAsync(request.ToJsonContent(), string.Empty, cancellationToken);
-        return await response.ToResponseAsync<Response<TResponse>>(cancellationToken);
+        var httpResponse = await SendRequestAsync(request.ToJsonContent(), string.Empty, cancellationToken);
+        var response = await httpResponse.ToResponseAsync<Response<TResponse>>(cancellationToken);
+        response.ThrowIfUnsuccessful();
+        return response.Arguments;
     }
 
-    public async Task<Response<TorrentStartResponse>> TorrentStartAsync
-    (
-        TorrentStartRequest arguments,
-        CancellationToken cancellationToken = default
-    )
+    public async Task TorrentStartAsync(TorrentStartRequest arguments, CancellationToken cancellationToken = default)
     {
-        return await ExecuteAsync<TorrentStartRequest, TorrentStartResponse>(arguments,
-            cancellationToken);
+        await ExecuteAsync<TorrentStartRequest, TorrentStartResponse>(arguments, cancellationToken);
     }
 
-    public async Task<Response<TorrentStartNowResponse>> TorrentStartNowAsync
-    (
-        TorrentStartNowRequest arguments,
-        CancellationToken cancellationToken = default
-    )
+    public async Task TorrentStartNowAsync(TorrentStartNowRequest arguments,
+        CancellationToken cancellationToken = default)
     {
-        return await ExecuteAsync<TorrentStartNowRequest, TorrentStartNowResponse>(arguments,
-            cancellationToken);
+        await ExecuteAsync<TorrentStartNowRequest, TorrentStartNowResponse>(arguments, cancellationToken);
     }
 
-    public async Task<Response<TorrentStopResponse>> TorrentStopAsync
-    (
-        TorrentStopRequest arguments,
-        CancellationToken cancellationToken = default
-    )
+    public async Task TorrentStopAsync(TorrentStopRequest arguments, CancellationToken cancellationToken = default)
     {
-        return await ExecuteAsync<TorrentStopRequest, TorrentStopResponse>(arguments,
-            cancellationToken);
+        await ExecuteAsync<TorrentStopRequest, TorrentStopResponse>(arguments, cancellationToken);
     }
 
-    public async Task<Response<TorrentVerifyResponse>> TorrentVerifyAsync
-    (
-        TorrentVerifyRequest arguments,
-        CancellationToken cancellationToken = default
-    )
+    public async Task TorrentVerifyAsync(TorrentVerifyRequest arguments, CancellationToken cancellationToken = default)
     {
-        return await ExecuteAsync<TorrentVerifyRequest, TorrentVerifyResponse>(arguments, cancellationToken);
+        await ExecuteAsync<TorrentVerifyRequest, TorrentVerifyResponse>(arguments, cancellationToken);
     }
 
-    public async Task<Response<TorrentReannounceResponse>> TorrentReannounceAsync
-    (
-        TorrentReannounceRequest arguments,
-        CancellationToken cancellationToken = default
-    )
+    public async Task TorrentReannounceAsync(TorrentReannounceRequest arguments,
+        CancellationToken cancellationToken = default)
     {
-        return await ExecuteAsync<TorrentReannounceRequest, TorrentReannounceResponse>(arguments, cancellationToken);
+        await ExecuteAsync<TorrentReannounceRequest, TorrentReannounceResponse>(arguments, cancellationToken);
     }
 
-    public async Task<Response<TorrentGetResponse>> TorrentGetAsync
-    (
-        TorrentGetRequest arguments,
-        CancellationToken cancellationToken = default
-    )
+    public async Task<TorrentGetResponse> TorrentGetAsync(TorrentGetRequest arguments,
+        CancellationToken cancellationToken = default)
     {
-        return await ExecuteAsync<TorrentGetRequest, TorrentGetResponse>(arguments,
-            cancellationToken);
+        return await ExecuteAsync<TorrentGetRequest, TorrentGetResponse>(arguments, cancellationToken);
     }
 
-    public async Task<Response<TorrentAddResponse>> TorrentAddAsync
-    (
-        TorrentAddRequest arguments,
-        CancellationToken cancellationToken = default
-    )
+    public async Task<TorrentAddResponse> TorrentAddAsync(TorrentAddRequest arguments,
+        CancellationToken cancellationToken = default)
     {
-        return await ExecuteAsync<TorrentAddRequest, TorrentAddResponse>(arguments,
-            cancellationToken);
+        return await ExecuteAsync<TorrentAddRequest, TorrentAddResponse>(arguments, cancellationToken);
     }
 
-    public async Task<Response<PortTestResponse>> PortTestAsync(CancellationToken cancellationToken = default)
+    public async Task<PortTestResponse> PortTestAsync(CancellationToken cancellationToken = default)
     {
         PortTestRequest arguments = new();
         return await ExecuteAsync<PortTestRequest, PortTestResponse>(arguments, cancellationToken);

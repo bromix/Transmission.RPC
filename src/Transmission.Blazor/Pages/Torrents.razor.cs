@@ -28,15 +28,15 @@ public partial class Torrents: ComponentBase
             }
         };
 
-        TorrentsList = (await TorrentClient.TorrentGetAsync(request))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
-
-        System.Timers.Timer t = new System.Timers.Timer();
-        t.Elapsed += async (s, e) =>
-        {
-            TorrentsList = (await TorrentClient.TorrentGetAsync(request))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
-            await InvokeAsync(StateHasChanged);
-        };
-        t.Interval = 2000;
-        t.Start();
+        // TorrentsList = (await TorrentClient.TorrentGetAsync(request))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
+        //
+        // System.Timers.Timer t = new System.Timers.Timer();
+        // t.Elapsed += async (s, e) =>
+        // {
+        //     TorrentsList = (await TorrentClient.TorrentGetAsync(request))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
+        //     await InvokeAsync(StateHasChanged);
+        // };
+        // t.Interval = 2000;
+        // t.Start();
     }
 } 
