@@ -1,3 +1,3 @@
 ﻿namespace Transmission.RPC.Messages.TorrentStart;
 
-public sealed record TorrentStartResponseArguments;
+public sealed record TorrentStartResponse;

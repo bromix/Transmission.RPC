@@ -11,10 +11,10 @@ public static class RequestFactory
     {
         return arguments switch
         {
-            TorrentStartRequestArguments => new Request<TRequest>("torrent-start") { Arguments = arguments },
-            TorrentStopRequestArguments => new Request<TRequest>("torrent-stop") { Arguments = arguments },
-            TorrentGetRequestArguments => new Request<TRequest>("torrent-get") { Arguments = arguments },
-            TorrentAddRequestArguments => new Request<TRequest>("torrent-add") { Arguments = arguments },
+            TorrentStartRequest => new Request<TRequest>("torrent-start") { Arguments = arguments },
+            TorrentStopRequest => new Request<TRequest>("torrent-stop") { Arguments = arguments },
+            TorrentGetRequest => new Request<TRequest>("torrent-get") { Arguments = arguments },
+            TorrentAddRequest => new Request<TRequest>("torrent-add") { Arguments = arguments },
             _ => throw new ArgumentOutOfRangeException(nameof(arguments), arguments, null)
         };
     }

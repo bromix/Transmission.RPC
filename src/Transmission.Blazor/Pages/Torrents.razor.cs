@@ -15,7 +15,7 @@ public partial class Torrents: ComponentBase
 
         throw new Exception("asdsadasd");
 
-        TorrentGetRequestArguments requestArguments = new()
+        TorrentGetRequest request = new()
         {
             Fields = new[]
             {
@@ -28,12 +28,12 @@ public partial class Torrents: ComponentBase
             }
         };
 
-        TorrentsList = (await TorrentClient.TorrentGetAsync(requestArguments))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
+        TorrentsList = (await TorrentClient.TorrentGetAsync(request))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
 
         System.Timers.Timer t = new System.Timers.Timer();
         t.Elapsed += async (s, e) =>
         {
-            TorrentsList = (await TorrentClient.TorrentGetAsync(requestArguments))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
+            TorrentsList = (await TorrentClient.TorrentGetAsync(request))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
             await InvokeAsync(StateHasChanged);
         };
         t.Interval = 2000;

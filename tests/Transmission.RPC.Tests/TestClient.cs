@@ -42,7 +42,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
     [Fact]
     public async Task ClientGet()
     {
-        TorrentGetRequestArguments requestArguments = new()
+        TorrentGetRequest request = new()
         {
             Fields = new[]
             {
@@ -61,7 +61,8 @@ public sealed class TestClient : IClassFixture<EnvFile>
             }
             //Ids = new TorrentId[] { 1, "189dbeabefe71534466315bf447fd0e341ffed50" }
         };
-        var torrents = await _client.TorrentGetAsync(requestArguments);
+
+        var torrents = await _client.TorrentGetAsync(request);
 
         // var torrent = torrents.First();
         // var diff = DateTime.UtcNow - torrent.ActivityDate;
@@ -71,20 +72,20 @@ public sealed class TestClient : IClassFixture<EnvFile>
     [Fact]
     public async Task ClientAdd()
     {
-        TorrentAddRequestArguments requestArguments = new()
+        TorrentAddRequest request = new()
         {
             Filename = "https://releases.ubuntu.com/20.04/ubuntu-20.04.3-desktop-amd64.iso.torrent",
             Paused = true
         };
 
-        var result = await _client.TorrentAddAsync(requestArguments);
+        var result = await _client.TorrentAddAsync(request);
         Assert.True(true);
     }
 
     [Fact]
     public async Task TorrentStart()
     {
-        TorrentStartRequestArguments arguments = new()
+        TorrentStartRequest arguments = new()
             { Ids = new TorrentId[] { "a305900fb229d3fa3b1b0c10ac0584b2748099fe" } };
 
         var result = await _client.TorrentStartAsync(arguments);
@@ -94,7 +95,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
     [Fact]
     public async Task TorrentStop()
     {
-        TorrentStopRequestArguments arguments = new()
+        TorrentStopRequest arguments = new()
             { Ids = new TorrentId[] { "a305900fb229d3fa3b1b0c10ac0584b2748099fe" } };
 
         var result = await _client.TorrentStopAsync(arguments);

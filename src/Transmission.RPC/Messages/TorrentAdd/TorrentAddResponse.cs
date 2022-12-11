@@ -2,7 +2,7 @@
 
 namespace Transmission.RPC.Messages.TorrentAdd;
 
-public sealed record TorrentAddResponseArguments
+public sealed record TorrentAddResponse
 {
     [JsonPropertyName("torrent-added")] public TorrentAddInfo? TorrentAdded { get; init; } = null;
 

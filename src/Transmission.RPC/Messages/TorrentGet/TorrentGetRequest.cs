@@ -5,7 +5,7 @@ namespace Transmission.RPC.Messages.TorrentGet;
 /// <summary>
 /// Method: "torrent-get"
 /// </summary>
-public sealed record TorrentGetRequestArguments
+public sealed record TorrentGetRequest
 {
     [JsonPropertyName("fields")]
     [JsonConverter(typeof(TorrentGetRequestFieldTypeJsonConverter))]

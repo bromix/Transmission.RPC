@@ -92,43 +92,43 @@ public sealed class Client
         return await response.ToResponseAsync<Response<TResponse>>(cancellationToken);
     }
 
-    public async Task<Response<TorrentStartResponseArguments>> TorrentStartAsync
+    public async Task<Response<TorrentStartResponse>> TorrentStartAsync
     (
-        TorrentStartRequestArguments arguments,
+        TorrentStartRequest arguments,
         CancellationToken cancellationToken = default
     )
     {
-        return await ExecuteAsync<TorrentStartRequestArguments, TorrentStartResponseArguments>(arguments,
+        return await ExecuteAsync<TorrentStartRequest, TorrentStartResponse>(arguments,
             cancellationToken);
     }
 
-    public async Task<Response<TorrentStopResponseArguments>> TorrentStopAsync
+    public async Task<Response<TorrentStopResponse>> TorrentStopAsync
     (
-        TorrentStopRequestArguments arguments,
+        TorrentStopRequest arguments,
         CancellationToken cancellationToken = default
     )
     {
-        return await ExecuteAsync<TorrentStopRequestArguments, TorrentStopResponseArguments>(arguments,
+        return await ExecuteAsync<TorrentStopRequest, TorrentStopResponse>(arguments,
             cancellationToken);
     }
 
-    public async Task<Response<TorrentGetResponseArguments>> TorrentGetAsync
+    public async Task<Response<TorrentGetResponse>> TorrentGetAsync
     (
-        TorrentGetRequestArguments arguments,
+        TorrentGetRequest arguments,
         CancellationToken cancellationToken = default
     )
     {
-        return await ExecuteAsync<TorrentGetRequestArguments, TorrentGetResponseArguments>(arguments,
+        return await ExecuteAsync<TorrentGetRequest, TorrentGetResponse>(arguments,
             cancellationToken);
     }
 
-    public async Task<Response<TorrentAddResponseArguments>> TorrentAddAsync
+    public async Task<Response<TorrentAddResponse>> TorrentAddAsync
     (
-        TorrentAddRequestArguments arguments,
+        TorrentAddRequest arguments,
         CancellationToken cancellationToken = default
     )
     {
-        return await ExecuteAsync<TorrentAddRequestArguments, TorrentAddResponseArguments>(arguments,
+        return await ExecuteAsync<TorrentAddRequest, TorrentAddResponse>(arguments,
             cancellationToken);
     }
 

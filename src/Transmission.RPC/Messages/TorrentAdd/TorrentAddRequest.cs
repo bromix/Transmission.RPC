@@ -5,7 +5,7 @@ namespace Transmission.RPC.Messages.TorrentAdd;
 /// <summary>
 /// Method: "torrent-add"
 /// </summary>
-public sealed record TorrentAddRequestArguments
+public sealed record TorrentAddRequest
 {
     /// <summary>
     /// Filename or URL of the .torrent file.
