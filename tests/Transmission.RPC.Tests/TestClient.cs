@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Transmission.DependencyInjection;
 using Transmission.RPC.Messages;
@@ -62,11 +63,8 @@ public sealed class TestClient : IClassFixture<EnvFile>
             //Ids = new TorrentId[] { 1, "189dbeabefe71534466315bf447fd0e341ffed50" }
         };
 
-        var torrents = await _client.TorrentGetAsync(request);
-
-        // var torrent = torrents.First();
-        // var diff = DateTime.UtcNow - torrent.ActivityDate;
-        Assert.True(true);
+        var response = await _client.TorrentGetAsync(request);
+        response.IsSuccess().Should().BeTrue();
     }
 
     [Fact]
@@ -79,7 +77,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
         };
 
         var result = await _client.TorrentAddAsync(request);
-        Assert.True(true);
+        result.IsSuccess().Should().BeTrue();
     }
 
     [Fact]
@@ -91,7 +89,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
         var result = await _client.TorrentStartAsync(arguments);
         Assert.True(true);
     }
-    
+
     [Fact]
     public async Task TorrentStop()
     {
