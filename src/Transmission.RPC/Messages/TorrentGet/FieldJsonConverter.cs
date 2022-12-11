@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Transmission.RPC.Messages.TorrentGet;
 
-internal class FieldTypeJsonConverter : JsonConverter<TorrentGetRequestArguments.Field[]>
+internal class TorrentGetRequestFieldTypeJsonConverter : JsonConverter<TorrentGetRequestField[]>
 {
     private static string ToCamelCase(string input)
     {
@@ -13,13 +13,13 @@ internal class FieldTypeJsonConverter : JsonConverter<TorrentGetRequestArguments
         return char.ToLower(input[0]) + input[1..];
     }
 
-    public override TorrentGetRequestArguments.Field[]? Read(ref Utf8JsonReader reader, Type typeToConvert,
+    public override TorrentGetRequestField[]? Read(ref Utf8JsonReader reader, Type typeToConvert,
         JsonSerializerOptions options)
     {
         throw new NotImplementedException();
     }
 
-    public override void Write(Utf8JsonWriter writer, TorrentGetRequestArguments.Field[] value,
+    public override void Write(Utf8JsonWriter writer, TorrentGetRequestField[] value,
         JsonSerializerOptions options)
     {
         if (value.Length == 0) return;
@@ -30,9 +30,9 @@ internal class FieldTypeJsonConverter : JsonConverter<TorrentGetRequestArguments
             // All but a few FieldTypes can be converted to CamelCase.
             var fieldName = fieldType switch
             {
-                TorrentGetRequestArguments.Field.FileCount => "file-count",
-                TorrentGetRequestArguments.Field.PeerLimit => "peer-limit",
-                TorrentGetRequestArguments.Field.PrimaryMimeType => "primary-mime-type",
+                TorrentGetRequestField.FileCount => "file-count",
+                TorrentGetRequestField.PeerLimit => "peer-limit",
+                TorrentGetRequestField.PrimaryMimeType => "primary-mime-type",
                 _ => ToCamelCase(fieldType.ToString())
             };
 

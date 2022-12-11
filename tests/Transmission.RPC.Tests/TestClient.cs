@@ -46,18 +46,18 @@ public sealed class TestClient : IClassFixture<EnvFile>
         {
             Fields = new[]
             {
-                TorrentGetRequestArguments.Field.Id,
-                TorrentGetRequestArguments.Field.HashString,
-                TorrentGetRequestArguments.Field.Name,
-                TorrentGetRequestArguments.Field.Files,
-                TorrentGetRequestArguments.Field.Status,
-                TorrentGetRequestArguments.Field.FileStats,
-                TorrentGetRequestArguments.Field.FileCount,
-                TorrentGetRequestArguments.Field.IsPrivate,
-                TorrentGetRequestArguments.Field.IsStalled,
-                TorrentGetRequestArguments.Field.AddedDate,
-                TorrentGetRequestArguments.Field.ActivityDate,
-                TorrentGetRequestArguments.Field.TorrentFile
+                TorrentGetRequestField.Id,
+                TorrentGetRequestField.HashString,
+                TorrentGetRequestField.Name,
+                TorrentGetRequestField.Files,
+                TorrentGetRequestField.Status,
+                TorrentGetRequestField.FileStats,
+                TorrentGetRequestField.FileCount,
+                TorrentGetRequestField.IsPrivate,
+                TorrentGetRequestField.IsStalled,
+                TorrentGetRequestField.AddedDate,
+                TorrentGetRequestField.ActivityDate,
+                TorrentGetRequestField.TorrentFile
             }
             //Ids = new TorrentId[] { 1, "189dbeabefe71534466315bf447fd0e341ffed50" }
         };

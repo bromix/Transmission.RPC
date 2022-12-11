@@ -19,12 +19,12 @@ public partial class Torrents: ComponentBase
         {
             Fields = new[]
             {
-                TorrentGetRequestArguments.Field.Id,
-                TorrentGetRequestArguments.Field.Name,
-                TorrentGetRequestArguments.Field.IsPrivate,
-                TorrentGetRequestArguments.Field.IsStalled,
-                TorrentGetRequestArguments.Field.AddedDate,
-                TorrentGetRequestArguments.Field.HashString
+                TorrentGetRequestField.Id,
+                TorrentGetRequestField.Name,
+                TorrentGetRequestField.IsPrivate,
+                TorrentGetRequestField.IsStalled,
+                TorrentGetRequestField.AddedDate,
+                TorrentGetRequestField.HashString
             }
         };
 
