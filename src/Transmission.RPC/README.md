@@ -10,7 +10,7 @@
 | torrent-start-now    |   &#9989;   |
 | torrent-stop         |   &#9989;   |
 | torrent-verify       |   &#9989;   |
-| torrent-reannounce   |             |
+| torrent-reannounce   |   &#9989;   |
 | torrent-set          |             |
 | torrent-get          |             |
 | torrent-add          |             |

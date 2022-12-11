@@ -1,5 +1,6 @@
 ﻿using Transmission.RPC.Messages.TorrentAdd;
 using Transmission.RPC.Messages.TorrentGet;
+using Transmission.RPC.Messages.TorrentReannounce;
 using Transmission.RPC.Messages.TorrentStart;
 using Transmission.RPC.Messages.TorrentStartNow;
 using Transmission.RPC.Messages.TorrentStop;
@@ -17,6 +18,7 @@ public static class RequestFactory
             TorrentStartNowRequest => "torrent-start-now",
             TorrentStopRequest => "torrent-stop",
             TorrentVerifyRequest => "torrent-verify",
+            TorrentReannounceRequest => "torrent-reannounce",
             TorrentGetRequest => "torrent-get",
             TorrentAddRequest => "torrent-add",
             _ => throw new ArgumentOutOfRangeException(nameof(arguments), arguments, null)
