@@ -85,11 +85,8 @@ public sealed class Client
         throw new InvalidOperationException($"Server returned with {response.StatusCode}");
     }
 
-    private async Task<Response<TResponse>> ExecuteAsync<TRequest, TResponse>
-    (
-        TRequest arguments,
-        CancellationToken cancellationToken = default
-    )
+    private async Task<Response<TResponse>> ExecuteAsync<TRequest, TResponse>(TRequest arguments,
+        CancellationToken cancellationToken = default)
     {
         var request = RequestFactory.Create(arguments);
         var response = await SendRequestAsync(request.ToJsonContent(), string.Empty, cancellationToken);

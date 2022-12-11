@@ -11,7 +11,7 @@ namespace Transmission.RPC.Messages;
 
 public static class RequestFactory
 {
-    public static Request<TRequest> Create<TRequest>(TRequest arguments)
+    internal static Request<TRequest> Create<TRequest>(TRequest arguments)
     {
         var messageName = arguments switch
         {

@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Transmission.RPC.Messages;
 
-public sealed record Request<TArguments>
+internal sealed record Request<TArguments>
 {
     private static int _tagCounter;
 
