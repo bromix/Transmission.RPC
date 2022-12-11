@@ -19,7 +19,7 @@ builder.Services.AddTransmissionRpcClient((_) =>
                                throw new InvalidOperationException(
                                    "TRANSMISSION_PASSWORD is missing in Environment Variables.");
 
-    return new TransmissionRpcClientOptions(new Uri(transmissionUrl), transmissionUserName, transmissionPassword);
+    return new ClientOptions(new Uri(transmissionUrl), transmissionUserName, transmissionPassword);
 });
 
 var app = builder.Build();

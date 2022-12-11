@@ -8,21 +8,21 @@ using Transmission.RPC.Messages.TorrentStop;
 
 namespace Transmission.RPC;
 
-public sealed class TransmissionRpcClient
+public sealed class Client
 {
-    public TransmissionRpcClient(HttpClient httpClient)
+    public Client(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }
 
-    public static TransmissionRpcClient Create(TransmissionRpcClientOptions options)
+    public static Client Create(ClientOptions options)
     {
         HttpClient httpClient = new();
         httpClient.BaseAddress = options.Url;
         var authBytes = Encoding.UTF8.GetBytes($"{options.Username}:{options.Password}");
         httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authBytes));
-        return new TransmissionRpcClient(httpClient);
+        return new Client(httpClient);
     }
 
     /// <summary>

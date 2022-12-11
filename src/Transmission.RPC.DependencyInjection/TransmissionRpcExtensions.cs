@@ -10,10 +10,10 @@ public static class TransmissionRpcExtensions
     public static IServiceCollection AddTransmissionRpcClient
     (
         this IServiceCollection services,
-        Func<IServiceProvider, TransmissionRpcClientOptions> configure
+        Func<IServiceProvider, ClientOptions> configure
     )
     {
-        services.AddHttpClient<TransmissionRpcClient>((provider, client) =>
+        services.AddHttpClient<Client>((provider, client) =>
         {
             var options = configure(provider);
             client.BaseAddress = options.Url;

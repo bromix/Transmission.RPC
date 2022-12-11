@@ -13,14 +13,14 @@ namespace Transmission.RPC.Tests;
 
 public sealed class TestClient : IClassFixture<EnvFile>
 {
-    private readonly TransmissionRpcClient _transmissionRpcClient;
+    private readonly Client _client;
 
     public TestClient(EnvFile envFile)
     {
         var serviceProvider = new ServiceCollection()
             .AddTransmissionRpcClient(provider =>
             {
-                TransmissionRpcClientOptions options = new
+                ClientOptions options = new
                 (
                     Url: new Uri(envFile.TransmissionUrl),
                     Username: envFile.TransmissionUserName,
@@ -30,7 +30,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
             })
             .BuildServiceProvider();
 
-        _transmissionRpcClient = serviceProvider.GetRequiredService<TransmissionRpcClient>();
+        _client = serviceProvider.GetRequiredService<Client>();
         // _transmissionRpcClient = new TransmissionRpcClient
         // (
         //     envFile.TransmissionUrl,
@@ -61,7 +61,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
             }
             //Ids = new TorrentId[] { 1, "189dbeabefe71534466315bf447fd0e341ffed50" }
         };
-        var torrents = await _transmissionRpcClient.TorrentGetAsync(requestArguments);
+        var torrents = await _client.TorrentGetAsync(requestArguments);
 
         // var torrent = torrents.First();
         // var diff = DateTime.UtcNow - torrent.ActivityDate;
@@ -77,7 +77,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
             Paused = true
         };
 
-        var result = await _transmissionRpcClient.TorrentAddAsync(requestArguments);
+        var result = await _client.TorrentAddAsync(requestArguments);
         Assert.True(true);
     }
 
@@ -87,7 +87,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
         TorrentStartRequestArguments arguments = new()
             { Ids = new TorrentId[] { "a305900fb229d3fa3b1b0c10ac0584b2748099fe" } };
 
-        var result = await _transmissionRpcClient.TorrentStartAsync(arguments);
+        var result = await _client.TorrentStartAsync(arguments);
         Assert.True(true);
     }
     
@@ -97,7 +97,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
         TorrentStopRequestArguments arguments = new()
             { Ids = new TorrentId[] { "a305900fb229d3fa3b1b0c10ac0584b2748099fe" } };
 
-        var result = await _transmissionRpcClient.TorrentStopAsync(arguments);
+        var result = await _client.TorrentStopAsync(arguments);
         Assert.True(true);
     }
 }
