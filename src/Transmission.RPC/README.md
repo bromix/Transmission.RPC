@@ -4,12 +4,12 @@
 
 ## Requests
 
-
 | Request              | Implemented |
 |----------------------|:-----------:|
 | torrent-start        |   &#9989;   |
-| torrent-start-now    |             |
-| torrent-stop         |             |
+| torrent-start-now    |   &#9989;   |
+| torrent-stop         |   &#9989;   |
+| torrent-verify       |   &#9989;   |
 | torrent-reannounce   |             |
 | torrent-set          |             |
 | torrent-get          |             |

@@ -4,6 +4,7 @@ using Transmission.RPC.Messages;
 using Transmission.RPC.Messages.TorrentAdd;
 using Transmission.RPC.Messages.TorrentGet;
 using Transmission.RPC.Messages.TorrentStart;
+using Transmission.RPC.Messages.TorrentStartNow;
 using Transmission.RPC.Messages.TorrentStop;
 
 namespace Transmission.RPC;
@@ -99,6 +100,16 @@ public sealed class Client
     )
     {
         return await ExecuteAsync<TorrentStartRequest, TorrentStartResponse>(arguments,
+            cancellationToken);
+    }
+
+    public async Task<Response<TorrentStartNowResponse>> TorrentStartNowAsync
+    (
+        TorrentStartNowRequest arguments,
+        CancellationToken cancellationToken = default
+    )
+    {
+        return await ExecuteAsync<TorrentStartNowRequest, TorrentStartNowResponse>(arguments,
             cancellationToken);
     }
 
