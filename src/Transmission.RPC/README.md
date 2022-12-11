@@ -23,7 +23,7 @@
 | session-stats        |             |
 | session-close        |             |
 | blocklist-update     |             |
-| port-test            |             |
+| port-test            |   &#9989;   |
 | free-space           |             |
 | group-set            |             |
 | group-get            |             |

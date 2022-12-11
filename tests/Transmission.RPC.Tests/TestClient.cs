@@ -99,4 +99,11 @@ public sealed class TestClient : IClassFixture<EnvFile>
         var result = await _client.TorrentStopAsync(arguments);
         Assert.True(true);
     }
+    
+    [Fact]
+    public async Task PortTest()
+    {
+        var response = await _client.PortTestAsync();
+        response.IsSuccess().Should().BeTrue();
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using Transmission.RPC.Messages;
+using Transmission.RPC.Messages.PortTest;
 using Transmission.RPC.Messages.TorrentAdd;
 using Transmission.RPC.Messages.TorrentGet;
 using Transmission.RPC.Messages.TorrentReannounce;
@@ -161,6 +162,12 @@ public sealed class Client
     {
         return await ExecuteAsync<TorrentAddRequest, TorrentAddResponse>(arguments,
             cancellationToken);
+    }
+
+    public async Task<Response<PortTestResponse>> PortTestAsync(CancellationToken cancellationToken = default)
+    {
+        PortTestRequest arguments = new();
+        return await ExecuteAsync<PortTestRequest, PortTestResponse>(arguments, cancellationToken);
     }
 
     private readonly HttpClient _httpClient;
