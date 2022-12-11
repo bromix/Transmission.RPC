@@ -41,20 +41,27 @@ public sealed class TransmissionRpcClient
     /// </summary>
     /// <param name="content"></param>
     /// <param name="newSessionId">Will be set by this function if the server returned a new session id via headers.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    private async Task<HttpResponseMessage> SendRequestAsync(HttpContent content, string? newSessionId = null)
+    private async Task<HttpResponseMessage> SendRequestAsync
+    (
+        HttpContent content,
+        string newSessionId,
+        CancellationToken cancellationToken
+    )
     {
         if (!string.IsNullOrWhiteSpace(newSessionId))
             UpdateSessionId(newSessionId);
 
-        var httpRequest = new HttpRequestMessage();
-        httpRequest.Method = HttpMethod.Post;
-        httpRequest.Content = content;
+        HttpRequestMessage httpRequest = new()
+        {
+            Method = HttpMethod.Post,
+            Content = content
+        };
         var response = await _httpClient.SendAsync(httpRequest);
 
         if (response.StatusCode == System.Net.HttpStatusCode.OK) return response;
-
         if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             throw new InvalidOperationException("Server requires Authorization.");
 
@@ -66,7 +73,7 @@ public sealed class TransmissionRpcClient
 
             var session = response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
             if (!string.IsNullOrWhiteSpace(session))
-                return await SendRequestAsync(content, session);
+                return await SendRequestAsync(content, session, cancellationToken);
 
             throw new InvalidOperationException("New Session Id is missing in response header.");
         }
@@ -74,33 +81,55 @@ public sealed class TransmissionRpcClient
         throw new InvalidOperationException($"Server returned with {response.StatusCode}");
     }
 
-    private async Task<Response<TResponse>> ExecuteAsync<TRequest, TResponse>(TRequest arguments)
+    private async Task<Response<TResponse>> ExecuteAsync<TRequest, TResponse>
+    (
+        TRequest arguments,
+        CancellationToken cancellationToken = default
+    )
     {
         var request = RequestFactory.Create(arguments);
-        var response = await SendRequestAsync(request.ToJsonContent());
-        return await response.ToResponseAsync<Response<TResponse>>();
+        var response = await SendRequestAsync(request.ToJsonContent(), string.Empty, cancellationToken);
+        return await response.ToResponseAsync<Response<TResponse>>(cancellationToken);
     }
 
-    public async Task<Response<TorrentStartResponseArguments>> TorrentStartAsync(TorrentStartRequestArguments arguments)
+    public async Task<Response<TorrentStartResponseArguments>> TorrentStartAsync
+    (
+        TorrentStartRequestArguments arguments,
+        CancellationToken cancellationToken = default
+    )
     {
-        return await ExecuteAsync<TorrentStartRequestArguments, TorrentStartResponseArguments>(arguments);
+        return await ExecuteAsync<TorrentStartRequestArguments, TorrentStartResponseArguments>(arguments,
+            cancellationToken);
     }
 
-    public async Task<Response<TorrentStopResponseArguments>> TorrentStopAsync(TorrentStopRequestArguments arguments)
+    public async Task<Response<TorrentStopResponseArguments>> TorrentStopAsync
+    (
+        TorrentStopRequestArguments arguments,
+        CancellationToken cancellationToken = default
+    )
     {
-        return await ExecuteAsync<TorrentStopRequestArguments, TorrentStopResponseArguments>(arguments);
+        return await ExecuteAsync<TorrentStopRequestArguments, TorrentStopResponseArguments>(arguments,
+            cancellationToken);
     }
 
-    public async Task<Response<TorrentGetResponseArguments>> TorrentGetAsync(TorrentGetRequestArguments arguments)
+    public async Task<Response<TorrentGetResponseArguments>> TorrentGetAsync
+    (
+        TorrentGetRequestArguments arguments,
+        CancellationToken cancellationToken = default
+    )
     {
-        var response = await SendRequestAsync(RequestFactory.Create(arguments).ToJsonContent());
-        return await response.ToResponseAsync<Response<TorrentGetResponseArguments>>();
+        return await ExecuteAsync<TorrentGetRequestArguments, TorrentGetResponseArguments>(arguments,
+            cancellationToken);
     }
 
-    public async Task<Response<TorrentAddResponseArguments>> TorrentAddAsync(TorrentAddRequestArguments arguments)
+    public async Task<Response<TorrentAddResponseArguments>> TorrentAddAsync
+    (
+        TorrentAddRequestArguments arguments,
+        CancellationToken cancellationToken = default
+    )
     {
-        var response = await SendRequestAsync(RequestFactory.Create(arguments).ToJsonContent());
-        return await response.ToResponseAsync<Response<TorrentAddResponseArguments>>();
+        return await ExecuteAsync<TorrentAddRequestArguments, TorrentAddResponseArguments>(arguments,
+            cancellationToken);
     }
 
     private readonly HttpClient _httpClient;
