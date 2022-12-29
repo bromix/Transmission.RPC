@@ -5,7 +5,8 @@ namespace Transmission.RPC.Messages.TorrentReannounce;
 /// <summary>
 /// Method: "torrent-start"
 /// </summary>
-public sealed record TorrentReannounceRequest
+[TransmissionMethod("torrent-reannounce")]
+public sealed record TorrentReannounceRequest: ITransmissionRequest
 {
     [JsonPropertyName("ids")]
     [JsonConverter(typeof(TorrentIdTypeJsonConverter))]

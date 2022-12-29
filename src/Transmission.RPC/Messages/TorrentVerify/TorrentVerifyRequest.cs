@@ -5,7 +5,8 @@ namespace Transmission.RPC.Messages.TorrentVerify;
 /// <summary>
 /// Method: "torrent-start"
 /// </summary>
-public sealed record TorrentVerifyRequest
+[TransmissionMethod("torrent-verify")]
+public sealed record TorrentVerifyRequest : ITransmissionRequest
 {
     [JsonPropertyName("ids")]
     [JsonConverter(typeof(TorrentIdTypeJsonConverter))]

@@ -87,7 +87,7 @@ public sealed class Client
     }
 
     private async Task<TResponse> ExecuteAsync<TRequest, TResponse>(TRequest arguments,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default) where TRequest : ITransmissionRequest
     {
         var request = RequestFactory.Create(arguments);
         var httpResponse = await SendRequestAsync(request.ToJsonContent(), string.Empty, cancellationToken);

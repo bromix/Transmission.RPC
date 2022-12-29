@@ -5,7 +5,8 @@ namespace Transmission.RPC.Messages.TorrentStop;
 /// <summary>
 /// Method: "torrent-start"
 /// </summary>
-public sealed record TorrentStopRequest
+[TransmissionMethod("torrent-stop")]
+public sealed record TorrentStopRequest: ITransmissionRequest
 {
     [JsonPropertyName("ids")]
     [JsonConverter(typeof(TorrentIdTypeJsonConverter))]

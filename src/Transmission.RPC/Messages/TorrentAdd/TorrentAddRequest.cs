@@ -6,7 +6,8 @@ namespace Transmission.RPC.Messages.TorrentAdd;
 /// <summary>
 /// Method: "torrent-add"
 /// </summary>
-public sealed record TorrentAddRequest
+[TransmissionMethod("torrent-add")]
+public sealed record TorrentAddRequest: ITransmissionRequest
 {
     /// <summary>
     /// String of one or more cookies.

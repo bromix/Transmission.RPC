@@ -5,7 +5,8 @@ namespace Transmission.RPC.Messages.TorrentStartNow;
 /// <summary>
 /// Method: "torrent-start"
 /// </summary>
-public sealed record TorrentStartNowRequest
+[TransmissionMethod("torrent-start-now")]
+public sealed record TorrentStartNowRequest: ITransmissionRequest
 {
     [JsonPropertyName("ids")]
     [JsonConverter(typeof(TorrentIdTypeJsonConverter))]
