@@ -1,4 +1,5 @@
-﻿using Transmission.RPC.Messages.PortTest;
+﻿using Transmission.RPC.Messages.FreeSpace;
+using Transmission.RPC.Messages.PortTest;
 using Transmission.RPC.Messages.TorrentAdd;
 using Transmission.RPC.Messages.TorrentGet;
 using Transmission.RPC.Messages.TorrentReannounce;
@@ -23,6 +24,7 @@ public static class RequestFactory
             TorrentGetRequest => "torrent-get",
             TorrentAddRequest => "torrent-add",
             PortTestRequest => "port-test",
+            FreeSpaceRequest => "free-space",
             _ => throw new ArgumentOutOfRangeException(nameof(arguments), arguments, null)
         };
 

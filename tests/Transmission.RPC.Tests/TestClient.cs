@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Transmission.DependencyInjection;
 using Transmission.RPC.Enums;
 using Transmission.RPC.Messages;
+using Transmission.RPC.Messages.FreeSpace;
 using Transmission.RPC.Messages.TorrentAdd;
 using Transmission.RPC.Messages.TorrentGet;
 using Transmission.RPC.Messages.TorrentStart;
@@ -107,4 +108,12 @@ public sealed class TestClient : IClassFixture<EnvFile>
         var response = await _client.PortTestAsync();
         response.PortIsOpen.Should().BeTrue();
     }
+    
+    [Fact]
+    public async Task FreeSpaceTest()
+    {
+        var response = await _client.FreeSpaceAsync(new FreeSpaceRequest("/media/torrents"));
+    }
+    
+    
 }

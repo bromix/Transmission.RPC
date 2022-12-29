@@ -24,7 +24,7 @@
 | session-close        |     🔴      |
 | blocklist-update     |     🔴      |
 | port-test            |     🟢      |
-| free-space           |     🔴      |
+| free-space           |     🟡      |
 | group-set            |     🔴      |
 | group-get            |     🔴      |
 | queue-move-top       |     🔴      |

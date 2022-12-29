@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using Transmission.RPC.Messages;
+using Transmission.RPC.Messages.FreeSpace;
 using Transmission.RPC.Messages.PortTest;
 using Transmission.RPC.Messages.TorrentAdd;
 using Transmission.RPC.Messages.TorrentGet;
@@ -95,49 +96,55 @@ public sealed class Client
         return response.Arguments;
     }
 
-    public async Task TorrentStartAsync(TorrentStartRequest arguments, CancellationToken cancellationToken = default)
+    public async Task TorrentStartAsync(TorrentStartRequest request, CancellationToken cancellationToken = default)
     {
-        await ExecuteAsync<TorrentStartRequest, TorrentStartResponse>(arguments, cancellationToken);
+        await ExecuteAsync<TorrentStartRequest, TorrentStartResponse>(request, cancellationToken);
     }
 
-    public async Task TorrentStartNowAsync(TorrentStartNowRequest arguments,
+    public async Task TorrentStartNowAsync(TorrentStartNowRequest request,
         CancellationToken cancellationToken = default)
     {
-        await ExecuteAsync<TorrentStartNowRequest, TorrentStartNowResponse>(arguments, cancellationToken);
+        await ExecuteAsync<TorrentStartNowRequest, TorrentStartNowResponse>(request, cancellationToken);
     }
 
-    public async Task TorrentStopAsync(TorrentStopRequest arguments, CancellationToken cancellationToken = default)
+    public async Task TorrentStopAsync(TorrentStopRequest request, CancellationToken cancellationToken = default)
     {
-        await ExecuteAsync<TorrentStopRequest, TorrentStopResponse>(arguments, cancellationToken);
+        await ExecuteAsync<TorrentStopRequest, TorrentStopResponse>(request, cancellationToken);
     }
 
-    public async Task TorrentVerifyAsync(TorrentVerifyRequest arguments, CancellationToken cancellationToken = default)
+    public async Task TorrentVerifyAsync(TorrentVerifyRequest request, CancellationToken cancellationToken = default)
     {
-        await ExecuteAsync<TorrentVerifyRequest, TorrentVerifyResponse>(arguments, cancellationToken);
+        await ExecuteAsync<TorrentVerifyRequest, TorrentVerifyResponse>(request, cancellationToken);
     }
 
-    public async Task TorrentReannounceAsync(TorrentReannounceRequest arguments,
+    public async Task TorrentReannounceAsync(TorrentReannounceRequest request,
         CancellationToken cancellationToken = default)
     {
-        await ExecuteAsync<TorrentReannounceRequest, TorrentReannounceResponse>(arguments, cancellationToken);
+        await ExecuteAsync<TorrentReannounceRequest, TorrentReannounceResponse>(request, cancellationToken);
     }
 
-    public async Task<TorrentGetResponse> TorrentGetAsync(TorrentGetRequest arguments,
+    public async Task<TorrentGetResponse> TorrentGetAsync(TorrentGetRequest request,
         CancellationToken cancellationToken = default)
     {
-        return await ExecuteAsync<TorrentGetRequest, TorrentGetResponse>(arguments, cancellationToken);
+        return await ExecuteAsync<TorrentGetRequest, TorrentGetResponse>(request, cancellationToken);
     }
 
-    public async Task<TorrentAddResponse> TorrentAddAsync(TorrentAddRequest arguments,
+    public async Task<TorrentAddResponse> TorrentAddAsync(TorrentAddRequest request,
         CancellationToken cancellationToken = default)
     {
-        return await ExecuteAsync<TorrentAddRequest, TorrentAddResponse>(arguments, cancellationToken);
+        return await ExecuteAsync<TorrentAddRequest, TorrentAddResponse>(request, cancellationToken);
     }
 
     public async Task<PortTestResponse> PortTestAsync(CancellationToken cancellationToken = default)
     {
         PortTestRequest arguments = new();
         return await ExecuteAsync<PortTestRequest, PortTestResponse>(arguments, cancellationToken);
+    }
+
+    public async Task<FreeSpaceResponse> FreeSpaceAsync(FreeSpaceRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        return await ExecuteAsync<FreeSpaceRequest, FreeSpaceResponse>(request, cancellationToken);
     }
 
     private readonly HttpClient _httpClient;
