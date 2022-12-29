@@ -16,15 +16,13 @@ public static class RequestFactory
     {
         var messageName = arguments switch
         {
+            ITransmissionRequest transmissionRequest => transmissionRequest.GetTransmissionMethodName(),
             TorrentStartRequest => "torrent-start",
             TorrentStartNowRequest => "torrent-start-now",
             TorrentStopRequest => "torrent-stop",
             TorrentVerifyRequest => "torrent-verify",
             TorrentReannounceRequest => "torrent-reannounce",
-            TorrentGetRequest => "torrent-get",
             TorrentAddRequest => "torrent-add",
-            PortTestRequest => "port-test",
-            FreeSpaceRequest => "free-space",
             _ => throw new ArgumentOutOfRangeException(nameof(arguments), arguments, null)
         };
 
