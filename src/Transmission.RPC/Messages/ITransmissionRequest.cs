@@ -1,5 +1,5 @@
 ﻿namespace Transmission.RPC.Messages;
 
-internal interface ITransmissionRequest
+public interface ITransmissionRequest
 {
 }

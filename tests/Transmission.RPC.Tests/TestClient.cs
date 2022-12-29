@@ -6,6 +6,7 @@ using Transmission.DependencyInjection;
 using Transmission.RPC.Enums;
 using Transmission.RPC.Messages;
 using Transmission.RPC.Messages.FreeSpace;
+using Transmission.RPC.Messages.PortTest;
 using Transmission.RPC.Messages.TorrentAdd;
 using Transmission.RPC.Messages.TorrentGet;
 using Transmission.RPC.Messages.TorrentStart;
@@ -66,7 +67,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
             //Ids = new TorrentId[] { 1, "189dbeabefe71534466315bf447fd0e341ffed50" }
         };
 
-        var response = await _client.TorrentGetAsync(request);
+        var response = await _client.ExecuteAsync(request);
         var x = 0;
     }
 
@@ -80,7 +81,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
             Paused = true
         };
 
-        var result = await _client.TorrentAddAsync(request);
+        var result = await _client.ExecuteAsync(request);
         var x = 0;
     }
 
@@ -90,7 +91,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
         TorrentStartRequest arguments = new()
             { Ids = new TorrentId[] { "a305900fb229d3fa3b1b0c10ac0584b2748099fe" } };
 
-        await _client.TorrentStartAsync(arguments);
+        await _client.ExecuteAsync(arguments);
         Assert.True(true);
     }
 
@@ -98,22 +99,19 @@ public sealed class TestClient : IClassFixture<EnvFile>
     public async Task TorrentStop()
     {
         TorrentStopRequest arguments = new() { Ids = new TorrentId[] { "a305900fb229d3fa3b1b0c10ac0584b2748099fe" } };
-
-        await _client.TorrentStopAsync(arguments);
+        await _client.ExecuteAsync(arguments);
     }
 
     [Fact]
     public async Task PortTest()
     {
-        var response = await _client.PortTestAsync();
+        var response = await _client.ExecuteAsync(new PortTestRequest());
         response.PortIsOpen.Should().BeTrue();
     }
-    
+
     [Fact]
     public async Task FreeSpaceTest()
     {
-        var response = await _client.FreeSpaceAsync(new FreeSpaceRequest("/media/torrents"));
+        var response = await _client.ExecuteAsync(new FreeSpaceRequest("/media/torrents"));
     }
-    
-    
 }

@@ -3,7 +3,7 @@
 namespace Transmission.RPC.Messages.FreeSpace;
 
 [TransmissionMethod("free-space")]
-public sealed record FreeSpaceRequest: ITransmissionRequest
+public record FreeSpaceRequest: ITransmissionRequest
 {
     public FreeSpaceRequest(string path) => Path = path;
 
