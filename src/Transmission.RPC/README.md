@@ -6,7 +6,7 @@
 
 | Request              | Implemented |
 |----------------------|:-----------:|
-| torrent-start        |   &#9989;   |
+| torrent-start        |     🟢      |
 | torrent-start-now    |   &#9989;   |
 | torrent-stop         |   &#9989;   |
 | torrent-verify       |   &#9989;   |
