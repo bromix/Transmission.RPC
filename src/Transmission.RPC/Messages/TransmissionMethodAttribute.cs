@@ -1,7 +1,7 @@
 ﻿namespace Transmission.RPC.Messages;
 
 [AttributeUsage(AttributeTargets.Class)]
-public sealed class TransmissionMethodAttribute : Attribute
+internal sealed class TransmissionMethodAttribute : Attribute
 {
     public TransmissionMethodAttribute(string methodName) => MethodName = methodName;
     public string MethodName { get; }
