@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Transmission.RPC.Enums;
 
 namespace Transmission.RPC.Messages.TorrentGet;
 
@@ -10,7 +11,7 @@ public sealed record Torrent
     [JsonConverter(typeof(DateTimeJsonConverter))]
     public DateTime? AddedDate { get; init; } = null;
 
-    public int? BandwidthPriority { get; init; }
+    public Priority? BandwidthPriority { get; init; }
     public string? Comment { get; init; }
     public int CorruptEver { get; init; }
     public string? Creator { get; init; }
