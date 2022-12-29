@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Transmission.DependencyInjection;
+using Transmission.RPC.Enums;
 using Transmission.RPC.Messages;
 using Transmission.RPC.Messages.TorrentAdd;
 using Transmission.RPC.Messages.TorrentGet;
@@ -72,7 +73,8 @@ public sealed class TestClient : IClassFixture<EnvFile>
     {
         TorrentAddRequest request = new()
         {
-            Filename = "https://releases.ubuntu.com/20.04/ubuntu-20.04.3-desktop-amd64.iso.torrent",
+            Filename = "https://releases.ubuntu.com/22.04/ubuntu-22.04.1-live-server-amd64.iso.torrent",
+            BandwidthPriority = Priority.Low,
             Paused = true
         };
 
