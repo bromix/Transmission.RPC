@@ -4,13 +4,13 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Transmission.DependencyInjection;
 using Transmission.RPC.Enums;
-using Transmission.RPC.Messages;
-using Transmission.RPC.Messages.FreeSpace;
-using Transmission.RPC.Messages.PortTest;
-using Transmission.RPC.Messages.TorrentAdd;
-using Transmission.RPC.Messages.TorrentGet;
-using Transmission.RPC.Messages.TorrentStart;
-using Transmission.RPC.Messages.TorrentStop;
+using Transmission.RPC.Methods;
+using Transmission.RPC.Methods.FreeSpace;
+using Transmission.RPC.Methods.PortTest;
+using Transmission.RPC.Methods.TorrentAdd;
+using Transmission.RPC.Methods.TorrentGet;
+using Transmission.RPC.Methods.TorrentStart;
+using Transmission.RPC.Methods.TorrentStop;
 using Xunit;
 
 namespace Transmission.RPC.Tests;
@@ -46,28 +46,24 @@ public sealed class TestClient : IClassFixture<EnvFile>
     [Fact]
     public async Task ClientGet()
     {
-        TorrentGetRequest request = new()
+        TorrentGetRequest request = new(new[]
         {
-            Fields = new[]
-            {
-                TorrentGetRequestField.Id,
-                TorrentGetRequestField.HashString,
-                TorrentGetRequestField.Name,
-                TorrentGetRequestField.BandwidthPriority,
-                // TorrentGetRequestField.Files,
-                // TorrentGetRequestField.Status,
-                // TorrentGetRequestField.FileStats,
-                // TorrentGetRequestField.FileCount,
-                // TorrentGetRequestField.IsPrivate,
-                // TorrentGetRequestField.IsStalled,
-                // TorrentGetRequestField.AddedDate,
-                // TorrentGetRequestField.ActivityDate,
-                // TorrentGetRequestField.TorrentFile
-            }
-            //Ids = new TorrentId[] { 1, "189dbeabefe71534466315bf447fd0e341ffed50" }
-        };
+            TorrentGetRequestField.Id,
+            TorrentGetRequestField.HashString,
+            TorrentGetRequestField.Name,
+            TorrentGetRequestField.BandwidthPriority,
+            // TorrentGetRequestField.Files,
+            // TorrentGetRequestField.Status,
+            // TorrentGetRequestField.FileStats,
+            // TorrentGetRequestField.FileCount,
+            // TorrentGetRequestField.IsPrivate,
+            // TorrentGetRequestField.IsStalled,
+            // TorrentGetRequestField.AddedDate,
+            // TorrentGetRequestField.ActivityDate,
+            // TorrentGetRequestField.TorrentFile
+        });
 
-        var response = await _client.ExecuteAsync(request);
+        var response = await _client.GetTorrentAsync(request);
         var x = 0;
     }
 
@@ -81,7 +77,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
             Paused = true
         };
 
-        var result = await _client.ExecuteAsync(request);
+        var result = await _client.AddTorrentAsync(request);
         var x = 0;
     }
 
@@ -91,7 +87,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
         TorrentStartRequest arguments = new()
             { Ids = new TorrentId[] { "a305900fb229d3fa3b1b0c10ac0584b2748099fe" } };
 
-        await _client.ExecuteAsync(arguments);
+        await _client.StartTorrentAsync(arguments);
         Assert.True(true);
     }
 
@@ -99,19 +95,19 @@ public sealed class TestClient : IClassFixture<EnvFile>
     public async Task TorrentStop()
     {
         TorrentStopRequest arguments = new() { Ids = new TorrentId[] { "a305900fb229d3fa3b1b0c10ac0584b2748099fe" } };
-        await _client.ExecuteAsync(arguments);
+        await _client.StopTorrentAsync(arguments);
     }
 
     [Fact]
     public async Task PortTest()
     {
-        var response = await _client.ExecuteAsync(new PortTestRequest());
+        var response = await _client.TestPortAsync(new PortTestRequest());
         response.PortIsOpen.Should().BeTrue();
     }
 
     [Fact]
     public async Task FreeSpaceTest()
     {
-        var response = await _client.ExecuteAsync(new FreeSpaceRequest("/media/torrents"));
+        var response = await _client.GetFreeSpaceAsync(new FreeSpaceRequest("/media/torrents"));
     }
 }

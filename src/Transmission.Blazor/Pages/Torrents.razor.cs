@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Components;
-using Transmission.RPC.Messages.TorrentGet;
+using Transmission.RPC.Methods.TorrentGet;
 
 namespace Transmission.Blazor.Pages;
 public partial class Torrents: ComponentBase
@@ -15,18 +15,18 @@ public partial class Torrents: ComponentBase
 
         throw new Exception("asdsadasd");
 
-        TorrentGetRequest request = new()
-        {
-            Fields = new[]
-            {
-                TorrentGetRequestField.Id,
-                TorrentGetRequestField.Name,
-                TorrentGetRequestField.IsPrivate,
-                TorrentGetRequestField.IsStalled,
-                TorrentGetRequestField.AddedDate,
-                TorrentGetRequestField.HashString
-            }
-        };
+        // TorrentGetRequest request = new()
+        // {
+        //     Fields = new[]
+        //     {
+        //         TorrentGetRequestField.Id,
+        //         TorrentGetRequestField.Name,
+        //         TorrentGetRequestField.IsPrivate,
+        //         TorrentGetRequestField.IsStalled,
+        //         TorrentGetRequestField.AddedDate,
+        //         TorrentGetRequestField.HashString
+        //     }
+        // };
 
         // TorrentsList = (await TorrentClient.TorrentGetAsync(request))?.Arguments?.Torrents?.OrderBy(_ => _.AddedDate).ToArray();
         //

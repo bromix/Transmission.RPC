@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Transmission.RPC.Messages;
+using Transmission.RPC.Methods;
 using Xunit;
 
 namespace Transmission.RPC.Tests.Messages;
