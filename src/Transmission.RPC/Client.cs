@@ -190,11 +190,28 @@ public sealed class Client
         CancellationToken cancellationToken)
         where TRequest : ITransmissionRequest
     {
-        var transmissionRequest = RequestFactory.Create(request);
+        var transmissionRequest = Create(request);
         var httpResponse = await SendRequestAsync(transmissionRequest.ToJsonContent(), string.Empty, cancellationToken);
         var response = await httpResponse.ToResponseAsync<Response<TResponse>>(cancellationToken);
         response.ThrowIfUnsuccessful();
         return response.Arguments;
+    }
+
+    /// <summary>
+    /// Creates the full request for the transmission protocol.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <typeparam name="TRequest"></typeparam>
+    /// <returns></returns>
+    private static Request<TRequest> Create<TRequest>(TRequest request) where TRequest : ITransmissionRequest
+    {
+        var messageName = request.GetTransmissionMethodName();
+        if (string.IsNullOrEmpty(messageName))
+        {
+            throw new InvalidOperationException($"No message name defined for Request '{request}'");
+        }
+
+        return new Request<TRequest>(messageName) { Arguments = request };
     }
 
     private readonly HttpClient _httpClient;
