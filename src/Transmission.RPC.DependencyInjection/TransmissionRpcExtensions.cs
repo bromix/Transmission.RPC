@@ -13,7 +13,7 @@ public static class TransmissionRpcExtensions
         Func<IServiceProvider, ClientOptions> configure
     )
     {
-        services.AddHttpClient<Client>((provider, client) =>
+        services.AddHttpClient<TransmissionRpcClient>((provider, client) =>
         {
             var options = configure(provider);
             client.BaseAddress = options.Url;

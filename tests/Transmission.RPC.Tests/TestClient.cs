@@ -17,7 +17,7 @@ namespace Transmission.RPC.Tests;
 
 public sealed class TestClient : IClassFixture<EnvFile>
 {
-    private readonly Client _client;
+    private readonly TransmissionRpcClient _transmissionRpcClient;
 
     public TestClient(EnvFile envFile)
     {
@@ -34,7 +34,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
             })
             .BuildServiceProvider();
 
-        _client = serviceProvider.GetRequiredService<Client>();
+        _transmissionRpcClient = serviceProvider.GetRequiredService<TransmissionRpcClient>();
         // _transmissionRpcClient = new TransmissionRpcClient
         // (
         //     envFile.TransmissionUrl,
@@ -63,7 +63,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
             // TorrentGetRequestField.TorrentFile
         });
 
-        var response = await _client.GetTorrentAsync(request);
+        var response = await _transmissionRpcClient.GetTorrentAsync(request);
         var x = 0;
     }
 
@@ -77,7 +77,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
             Paused = true
         };
 
-        var result = await _client.AddTorrentAsync(request);
+        var result = await _transmissionRpcClient.AddTorrentAsync(request);
         var x = 0;
     }
 
@@ -87,7 +87,7 @@ public sealed class TestClient : IClassFixture<EnvFile>
         TorrentStartRequest arguments = new()
             { Ids = new TorrentId[] { "a305900fb229d3fa3b1b0c10ac0584b2748099fe" } };
 
-        await _client.StartTorrentAsync(arguments);
+        await _transmissionRpcClient.StartTorrentAsync(arguments);
         Assert.True(true);
     }
 
@@ -95,19 +95,19 @@ public sealed class TestClient : IClassFixture<EnvFile>
     public async Task TorrentStop()
     {
         TorrentStopRequest arguments = new() { Ids = new TorrentId[] { "a305900fb229d3fa3b1b0c10ac0584b2748099fe" } };
-        await _client.StopTorrentAsync(arguments);
+        await _transmissionRpcClient.StopTorrentAsync(arguments);
     }
 
     [Fact]
     public async Task PortTest()
     {
-        var response = await _client.TestPortAsync(new PortTestRequest());
+        var response = await _transmissionRpcClient.TestPortAsync(new PortTestRequest());
         response.PortIsOpen.Should().BeTrue();
     }
 
     [Fact]
     public async Task FreeSpaceTest()
     {
-        var response = await _client.GetFreeSpaceAsync(new FreeSpaceRequest("/media/torrents"));
+        var response = await _transmissionRpcClient.GetFreeSpaceAsync(new FreeSpaceRequest("/media/torrents"));
     }
 }

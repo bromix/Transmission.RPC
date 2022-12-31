@@ -5,7 +5,7 @@ namespace Transmission.Blazor.Pages;
 public partial class Torrents: ComponentBase
 {
     [Inject]
-    private RPC.Client TorrentClient { get; init; } = default!;
+    private RPC.TransmissionRpcClient TorrentTransmissionRpcClient { get; init; } = default!;
 
     private Torrent[]? TorrentsList { get; set; }
 

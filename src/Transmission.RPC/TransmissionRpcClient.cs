@@ -13,21 +13,21 @@ using Transmission.RPC.Methods.TorrentVerify;
 
 namespace Transmission.RPC;
 
-public sealed class Client
+public sealed class TransmissionRpcClient : ITransmissionRpcClient
 {
-    public Client(HttpClient httpClient)
+    public TransmissionRpcClient(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }
 
-    public static Client Create(ClientOptions options)
+    public static TransmissionRpcClient Create(ClientOptions options)
     {
         HttpClient httpClient = new();
         httpClient.BaseAddress = options.Url;
         var authBytes = Encoding.UTF8.GetBytes($"{options.Username}:{options.Password}");
         httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authBytes));
-        return new Client(httpClient);
+        return new TransmissionRpcClient(httpClient);
     }
 
     /// <summary>
@@ -92,100 +92,51 @@ public sealed class Client
         throw new InvalidOperationException($"Server returned with {response.StatusCode}");
     }
 
-    /// <summary>
-    /// Start a torrent.
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellationToken"></param>
     public async Task StartTorrentAsync(TorrentStartRequest request, CancellationToken cancellationToken = default)
     {
         await ExecuteAsync<TorrentStartResult, TorrentStartRequest>(request, cancellationToken);
     }
 
-    /// <summary>
-    /// Start a torrent now.
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellationToken"></param>
     public async Task StartTorrentNowAsync(TorrentStartNowRequest request,
         CancellationToken cancellationToken = default)
     {
         await ExecuteAsync<TorrentStartNowResult, TorrentStartNowRequest>(request, cancellationToken);
     }
 
-    /// <summary>
-    /// Stop a torrent.
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellationToken"></param>
     public async Task StopTorrentAsync(TorrentStopRequest request, CancellationToken cancellationToken = default)
     {
         await ExecuteAsync<TorrentStopResult, TorrentStopRequest>(request, cancellationToken);
     }
 
-    /// <summary>
-    /// Verify a torrent.
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellationToken"></param>
     public async Task VerifyTorrentAsync(TorrentVerifyRequest request, CancellationToken cancellationToken = default)
     {
         await ExecuteAsync<TorrentVerifyResult, TorrentVerifyRequest>(request, cancellationToken);
     }
 
-    /// <summary>
-    /// Reannounce torrents.
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellationToken"></param>
     public async Task ReannounceTorrentAsync(TorrentReannounceRequest request,
         CancellationToken cancellationToken = default)
     {
         await ExecuteAsync<TorrentReannounceResult, TorrentReannounceRequest>(request, cancellationToken);
     }
 
-    /// <summary>
-    /// Returns information about torrents.
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
     public async Task<TorrentGetResult> GetTorrentAsync(TorrentGetRequest request,
         CancellationToken cancellationToken = default)
     {
         return await ExecuteAsync<TorrentGetResult, TorrentGetRequest>(request, cancellationToken);
     }
 
-    /// <summary>
-    /// Adds a torrent.
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
     public async Task<TorrentAddResult> AddTorrentAsync(TorrentAddRequest request,
         CancellationToken cancellationToken = default)
     {
         return await ExecuteAsync<TorrentAddResult, TorrentAddRequest>(request, cancellationToken);
     }
 
-    /// <summary>
-    /// This method tests how much free space is available in a client-specified folder.
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
     public async Task<FreeSpaceResult> GetFreeSpaceAsync(FreeSpaceRequest request,
         CancellationToken cancellationToken = default)
     {
         return await ExecuteAsync<FreeSpaceResult, FreeSpaceRequest>(request, cancellationToken);
     }
 
-    /// <summary>
-    /// This method tests to see if your incoming peer port is accessible from the outside world.
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
     public async Task<PortTestResult> TestPortAsync(PortTestRequest request,
         CancellationToken cancellationToken = default)
     {
