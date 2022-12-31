@@ -66,9 +66,15 @@ public sealed class Client
         };
         var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
 
-        if (response.StatusCode == System.Net.HttpStatusCode.OK) return response;
+        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            return response;
+        }
+
         if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+        {
             throw new InvalidOperationException("Server requires Authorization.");
+        }
 
         if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
         {
